@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.util.List;
 import model.Client;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -37,4 +38,15 @@ public class ClientDaoJpa implements ClientDao {
         return (Client)q.getSingleResult();
     }
     
+    public Client findClientByName(String unNom) {
+        Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c where c.nom = :unNom");
+        q.setParameter("nom", unNom);
+        return (Client)q.getSingleResult();
+    }
+    
+    public List<Client> listingClient() {
+        Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c");
+        List<Client> resultat = (List<Client>) q.getResultList();
+        return resultat;
+    }
 }
