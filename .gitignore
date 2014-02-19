@@ -211,5 +211,6 @@ pip-log.txt
 #Translations
 *.mo
 
-#Mr Developer
+#Netbeans
 .mr.developer.cfg
+nbproject/private/
