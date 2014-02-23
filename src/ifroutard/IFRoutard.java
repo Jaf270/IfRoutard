@@ -4,14 +4,10 @@
  */
 package ifroutard;
 
-import model.Client;
-import dao.JpaUtil;
 import java.util.Calendar;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import model.Adresse;
 import model.Civilite;
+import model.Client;
 import service.Service;
 
 /**
@@ -27,9 +23,18 @@ public class IFRoutard {
         service.Service serv = new Service();
         Calendar cal = Calendar.getInstance();
         cal.set(1993, 7, 24);
-        Client c1 = new Client(1234, Civilite.MASCULIN, "Losbar", "Thomas", cal, new Adresse(53, "rue courte","31000","Toulouse"),"thomas.losbar@insa-lyon.fr","6646464",true,"test");
+        String email = "thomas.losbar@insa-lyon.fr";
+        String motDePasse = "test";
+        Client c1 = new Client(1234, Civilite.MASCULIN, "Losbar", "Thomas", cal, new Adresse(53, "rue courte","31000","Toulouse"),email,"6646464",true,motDePasse);
         
-        serv.test(c1);
+        serv.InscriptionClient(c1);
+        
+        if(serv.ConnexionClient(email, motDePasse) == null) {
+           System.out.println("Pas connecté");
+        }
+        else {
+            System.out.println("Connecté");
+        }
         
     }
 }
