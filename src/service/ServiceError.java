@@ -6,7 +6,7 @@ package service;
 
 /**
  *
- * @author aurelien
+ * @author B3229
  */
 public enum ServiceError {
     OK,

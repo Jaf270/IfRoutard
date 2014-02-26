@@ -12,7 +12,7 @@ import service.Service;
 
 /**
  *
- * @author Administrateur
+ * @author B3229
  */
 public class IFRoutard {
 
@@ -23,18 +23,14 @@ public class IFRoutard {
         service.Service serv = new Service();
         Calendar cal = Calendar.getInstance();
         cal.set(1993, 7, 24);
-        String email = "thomas.losbar@insa-lyon.fr";
+        String email = "thomas.losbar@insa-l.fr";
         String motDePasse = "test";
         Client c1 = new Client(1234, Civilite.MASCULIN, "Losbar", "Thomas", cal, new Adresse(53, "rue courte","31000","Toulouse"),email,"6646464",true,motDePasse);
         
         serv.InscriptionClient(c1);
-        
-        if(serv.ConnexionClient(email, motDePasse) == null) {
-           System.out.println("Pas connecté");
-        }
-        else {
-            System.out.println("Connecté");
-        }
-        
+        System.out.println(serv.getError().name());
+        serv.ConnexionClient(email, motDePasse);
+        System.out.println(serv.getError().name());
+        System.out.println(serv.getErrorMessage());
     }
 }

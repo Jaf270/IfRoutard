@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 public class Client implements Serializable {
 
     @Id
-    @GeneratedValue (strategy= GenerationType.SEQUENCE)
+    @GeneratedValue //(strategy= GenerationType.AUTO)
     private int id;
     private int numClient;
     @Enumerated(EnumType.STRING)
