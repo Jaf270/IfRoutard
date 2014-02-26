@@ -8,14 +8,14 @@ import model.Client;
  * @author B3229
  */
 public abstract class ClientDao {
-    protected ClientDaoError error = null;
+    protected DaoError error = null;
     protected String errorMessage = null;
     
     /**
      *
      * @return The error indicator of the last failed call
      */
-    public final ClientDaoError getError()
+    public final DaoError getError()
     {
         return error;
     }
@@ -28,9 +28,9 @@ public abstract class ClientDao {
         return errorMessage;
     }
     
-    public abstract ClientDaoError createClient(Client client);
+    public abstract DaoError createClient(Client client);
     public abstract Client updateClient(Client client);
-    public abstract ClientDaoError deleteClient(Client client);
+    public abstract DaoError deleteClient(Client client);
     public abstract Client findClientByNum(int numClient);
     public abstract Client findClientByName(String unNom);
     public abstract Client findClientByEMail(String email);

@@ -5,7 +5,7 @@
 package service;
 
 import dao.ClientDao;
-import dao.ClientDaoError;
+import dao.DaoError;
 import dao.ClientDaoJpa;
 import dao.JpaUtil;
 import model.Client;
@@ -47,14 +47,14 @@ public class Service {
         int ret = -1;
         JpaUtil.creerEntityManager();
         clientDao.findClientByEMail(client.getEMail());
-        if(clientDao.getError() == ClientDaoError.OK) {
+        if(clientDao.getError() == DaoError.OK) {
             error = ServiceError.EXISTING_EMAIL;
             JpaUtil.fermerEntityManager();
         }
         else {
             try {
                 JpaUtil.ouvrirTransaction();
-                if(clientDao.createClient(client) != ClientDaoError.OK)
+                if(clientDao.createClient(client) != DaoError.OK)
                     throw new Exception(clientDao.getErrorMessage());
                 JpaUtil.validerTransaction();
                 ret = client.getNum();
@@ -80,7 +80,7 @@ public class Service {
         Client returnClient = null;
         JpaUtil.creerEntityManager();
         returnClient = clientDao.findClientByEMail(email);
-        if(clientDao.getError() != ClientDaoError.OK) {
+        if(clientDao.getError() != DaoError.OK) {
             error = ServiceError.WRONG_EMAIL;
             errorMessage = clientDao.getErrorMessage();
         }
