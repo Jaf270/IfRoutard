@@ -8,21 +8,21 @@ package dao;
 
 import java.util.List;
 import model.Pays;
-import model.Voyages;
+
 
 /**
  *
  * @author B3229
  */
 public abstract class PaysDao {
-    protected PaysDaoError error = null;
+    protected DaoError error = null;
     protected String errorMessage = null;
     
     /**
      *
      * @return The error indicator of the last failed call
      */
-    public final PaysDaoError getError()
+    public final DaoError getError()
     {
         return error;
     }
@@ -35,9 +35,9 @@ public abstract class PaysDao {
         return errorMessage;
     }
     
-    public abstract PaysDaoError createPays(Pays pays);
+    public abstract DaoError createPays(Pays pays);
     public abstract Pays updatePays(Pays pays);
-    public abstract PaysDaoError deletePays(Pays pays);
+    public abstract DaoError deletePays(Pays pays);
     public abstract Pays findPaysByNum(int numPays);
     public abstract Pays findPaysByName(String unNom);
     public abstract List<Pays> listingPays();

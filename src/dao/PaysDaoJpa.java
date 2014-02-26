@@ -9,7 +9,6 @@ package dao;
 import java.util.List;
 import javax.persistence.Query;
 import model.Pays;
-import model.Voyages;
 
 /**
  *
@@ -18,13 +17,13 @@ import model.Voyages;
 public class PaysDaoJpa extends PaysDao {
     
     @Override
-    public PaysDaoError createPays(Pays pays) {
+    public DaoError createPays(Pays pays) {
         try {
             JpaUtil.obtenirEntityManager().persist(pays);
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e) {
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return error;
@@ -35,26 +34,26 @@ public class PaysDaoJpa extends PaysDao {
         Pays ret;
         try {
             ret = (Pays)JpaUtil.obtenirEntityManager().merge(pays);
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
             ret = null;
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
     }
 
     @Override
-    public PaysDaoError deletePays(Pays pays) {
+    public DaoError deletePays(Pays pays) {
         try {
             JpaUtil.obtenirEntityManager().remove(pays);
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return error;
@@ -67,11 +66,11 @@ public class PaysDaoJpa extends PaysDao {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.numPays = :numPays");
             q.setParameter("numVoyage", numPays);
             ret = (Pays)q.getSingleResult();
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
@@ -84,11 +83,11 @@ public class PaysDaoJpa extends PaysDao {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.nom = :unNom");
             q.setParameter("ref", unNom);
             ret = (Pays)q.getSingleResult();
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
@@ -102,11 +101,11 @@ public class PaysDaoJpa extends PaysDao {
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c");
             ret = (List<Pays>) q.getResultList();
-            error = PaysDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = PaysDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;

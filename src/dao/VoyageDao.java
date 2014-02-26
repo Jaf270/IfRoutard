@@ -14,14 +14,14 @@ import model.Voyages;
  * @author B3229
  */
 public abstract class VoyageDao {
-    protected VoyageDaoError error = null;
+    protected DaoError error = null;
     protected String errorMessage = null;
     
     /**
      *
      * @return The error indicator of the last failed call
      */
-    public final VoyageDaoError getError()
+    public final DaoError getError()
     {
         return error;
     }
@@ -34,9 +34,9 @@ public abstract class VoyageDao {
         return errorMessage;
     }
     
-    public abstract VoyageDaoError createVoyage(Voyages voyage);
+    public abstract DaoError createVoyage(Voyages voyage);
     public abstract Voyages updateVoyage(Voyages voyage);
-    public abstract VoyageDaoError deleteVoyage(Voyages voyage);
+    public abstract DaoError deleteVoyage(Voyages voyage);
     public abstract Voyages findVoyageByNum(int numVoyage);
     public abstract Voyages findVoyageByRef(String uneRef);
     public abstract List<Voyages> listingVoyages();

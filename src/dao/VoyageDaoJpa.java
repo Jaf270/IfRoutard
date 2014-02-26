@@ -14,13 +14,13 @@ public class VoyageDaoJpa extends VoyageDao {
     
     
     @Override
-    public VoyageDaoError createVoyage(Voyages voyage) {
+    public DaoError createVoyage(Voyages voyage) {
         try {
             JpaUtil.obtenirEntityManager().persist(voyage);
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e) {
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return error;
@@ -31,26 +31,26 @@ public class VoyageDaoJpa extends VoyageDao {
         Voyages ret;
         try {
             ret = (Voyages)JpaUtil.obtenirEntityManager().merge(voyage);
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
             ret = null;
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
     }
 
     @Override
-    public VoyageDaoError deleteVoyage(Voyages voyage) {
+    public DaoError deleteVoyage(Voyages voyage) {
         try {
             JpaUtil.obtenirEntityManager().remove(voyage);
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return error;
@@ -63,11 +63,11 @@ public class VoyageDaoJpa extends VoyageDao {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.numVoyage = :numVoyage");
             q.setParameter("numVoyage", numVoyage);
             ret = (Voyages)q.getSingleResult();
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
@@ -80,11 +80,11 @@ public class VoyageDaoJpa extends VoyageDao {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.ref = :uneRef");
             q.setParameter("ref", uneRef);
             ret = (Voyages)q.getSingleResult();
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
@@ -98,11 +98,11 @@ public class VoyageDaoJpa extends VoyageDao {
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c");
             ret = (List<Voyages>) q.getResultList();
-            error = VoyageDaoError.OK;
+            error = DaoError.OK;
         }
         catch(Exception e)
         {
-            error = VoyageDaoError.GENERIC_ERROR;
+            error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
         return ret;
