@@ -23,5 +23,9 @@ public class Conseillers {
     private int numConseiller;
     private String nom;
     private String prenom;
+
+    public int getId() {
+        return id;
+    }
     
 }

@@ -33,4 +33,9 @@ public class Periodes {
     private int montant;
     @ManyToMany
     private TypeTransport typeTransport;
+
+    public int getId() {
+        return id;
+    }
+    
 }

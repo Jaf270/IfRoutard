@@ -22,5 +22,9 @@ public class TypeTransport {
     private int id;
     private String type;
     private String description;
+
+    public int getId() {
+        return id;
+    }
     
 }

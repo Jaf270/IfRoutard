@@ -22,4 +22,9 @@ public class Partenaires {
     private int id;
     private int numPartenaire;
     private String adrMail;
+
+    public int getId() {
+        return id;
+    }
+    
 }

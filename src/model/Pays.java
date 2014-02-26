@@ -27,4 +27,9 @@ public class Pays {
     private int superficie;
     private long nbHab;
     private String langue;
+
+    public int getId() {
+        return id;
+    }
+    
 }

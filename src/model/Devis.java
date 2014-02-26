@@ -40,5 +40,9 @@ public class Devis {
     private Voyages voyage;
     @ManyToOne (cascade = CascadeType.ALL)
     private Periodes periode;
+
+    public int getId() {
+        return id;
+    }
     
 }

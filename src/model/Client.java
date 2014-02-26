@@ -33,9 +33,9 @@ public class Client implements Serializable {
     private Civilite civilite;
     private String nom;
     private String prenom;
-    @Column(name = "DATE_FIELD")
+    @Column(name = "DATE_NAISSANCE")
     @Temporal(TemporalType.DATE)
-    private Calendar dateField;
+    private Calendar dateNaissance;
     @OneToOne(cascade = CascadeType.ALL)
     private Adresse adrPostale;
     private String adrMail;
@@ -71,7 +71,7 @@ public class Client implements Serializable {
         this.civilite = civilite;
         this.nom = nom;
         this.prenom = prenom;
-        this.dateField = dateField;
+        this.dateNaissance = dateField;
         this.adrPostale = adrPostale;
         this.adrMail = adrMail;
         this.telephone = telephone;
