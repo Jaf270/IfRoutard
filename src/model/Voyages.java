@@ -6,6 +6,7 @@
 
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public abstract class Voyages {
     private int numV;
     private String reference;
     private int durée;  
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Pays pays;
     public int getId() {
         return id;

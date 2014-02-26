@@ -13,15 +13,13 @@ import javax.persistence.Id;
 
 /**
  *
-// * @author B3229
+ * @author B3229
  */
 @Entity
-public class Conseillers {
+public class Partenaires {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)  
     private int id;
-    private int numConseiller;
-    private String nom;
-    private String prenom;
-    
+    private int numPartenaire;
+    private String adrMail;
 }

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Thomas
+ * @author B3229
  */
 @Entity
 public class Pays {

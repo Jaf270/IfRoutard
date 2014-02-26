@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 
 /**
  *
- * @author Thomas
+ * @author B3229
  */
 @Entity
 public class Circuits extends Voyages {

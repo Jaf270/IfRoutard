@@ -13,15 +13,14 @@ import javax.persistence.Id;
 
 /**
  *
-// * @author B3229
+ * @author B3229
  */
 @Entity
-public class Conseillers {
+public class TypeTransport {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int numConseiller;
-    private String nom;
-    private String prenom;
+    private String type;
+    private String description;
     
 }
