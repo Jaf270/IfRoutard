@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 public class Client implements Serializable {
 
     @Id
-    @GeneratedValue (strategy= GenerationType.AUTO)
+    @GeneratedValue (strategy= GenerationType.SEQUENCE)
     private int id;
     private int numClient;
     @Enumerated(EnumType.STRING)
@@ -49,6 +49,18 @@ public class Client implements Serializable {
 
     public String getNom() {
         return nom;
+    }
+    
+    public int getNum() {
+        return numClient;
+    }
+    
+    public String getEMail() {
+        return adrMail;
+    }
+    
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
     public Client() {
