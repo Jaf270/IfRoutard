@@ -5,10 +5,17 @@
 package service;
 
 import dao.ClientDao;
-import dao.ClientDaoError;
+import dao.DaoError;
 import dao.ClientDaoJpa;
 import dao.JpaUtil;
+import java.util.List;
 import model.Client;
+import model.Conseillers;
+import model.Devis;
+import model.Pays;
+import model.TypeTransport;
+import model.Voyages;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -22,16 +29,14 @@ public class Service {
      *
      * @return The error indicator of the last failed call
      */
-    public final ServiceError getError()
-    {
+    public final ServiceError getError() {
         return error;
     }
     /**
      *
      * @return The error message of the last failed call
      */
-    public final String getErrorMessage()
-    {
+    public final String getErrorMessage() {
         return errorMessage;
     }
     
@@ -42,19 +47,18 @@ public class Service {
      * @param client Le client à inscrire
      * @return le numéro du client si succès, -1 sinon
      */
-    public int InscriptionClient(Client client)
-    {
+    public int InscriptionClient(Client client) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         clientDao.findClientByEMail(client.getEMail());
-        if(clientDao.getError() == ClientDaoError.OK) {
+        if(clientDao.getError() == DaoError.OK) {
             error = ServiceError.EXISTING_EMAIL;
             JpaUtil.fermerEntityManager();
         }
         else {
             try {
                 JpaUtil.ouvrirTransaction();
-                if(clientDao.createClient(client) != ClientDaoError.OK)
+                if(clientDao.createClient(client) != DaoError.OK)
                     throw new Exception(clientDao.getErrorMessage());
                 JpaUtil.validerTransaction();
                 ret = client.getNum();
@@ -75,12 +79,11 @@ public class Service {
         return ret;
     }
     
-    public Client ConnexionClient(String email, String motDePasse)
-    {
+    public Client ConnexionClient(String email, String motDePasse) {
         Client returnClient = null;
         JpaUtil.creerEntityManager();
         returnClient = clientDao.findClientByEMail(email);
-        if(clientDao.getError() != ClientDaoError.OK) {
+        if(clientDao.getError() != DaoError.OK) {
             error = ServiceError.WRONG_EMAIL;
             errorMessage = clientDao.getErrorMessage();
         }
@@ -92,6 +95,50 @@ public class Service {
         }
         JpaUtil.fermerEntityManager();
         return returnClient;
+    }
+
+    public List<Voyages> RechercheVoyage(TypeTransport type, String pays) {
+        throw new NotImplementedException();
+    }
+    
+    public Voyages DetailsVoyage(int numVoyage) {
+        throw new NotImplementedException();
+    }
+    
+    public List<Pays> RecherchePays() {
+        throw  new NotImplementedException();
+    }
+    
+    public Pays DetailPays(int numPays) {
+        throw new NotImplementedException();
+    }
+    
+    public Conseillers CréerDevis(Devis devis) {
+        throw new NotImplementedException();
+    }
+    
+    public int AjouterPays(Pays pays) {
+        throw new NotImplementedException();
+    }
+    
+    public int EditionPays(Pays pays) {
+        throw new NotImplementedException();
+    }
+    
+    public boolean SuppressionPays(int numPays) {
+        throw new NotImplementedException();
+    }
+    
+    public int AjouterVoyage(Voyages voyage) {
+        throw new NotImplementedException();
+    }
+    
+    public int EditionVoyage(Voyages voyage) {
+        throw new NotImplementedException();
+    }
+    
+    public boolean SuppressionVoyage(int numVoyage) {
+        throw new NotImplementedException();
     }
     
 }
