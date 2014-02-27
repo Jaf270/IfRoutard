@@ -16,7 +16,7 @@ public class ClientDaoJpa extends ClientDao {
     
 
     @Override
-    public DaoError createClient(Client client) {
+    public DaoError creerClient(Client client) {
         try {
             JpaUtil.obtenirEntityManager().persist(client);
             error = DaoError.OK;
@@ -29,7 +29,7 @@ public class ClientDaoJpa extends ClientDao {
     }
 
     @Override
-    public Client updateClient(Client client) {
+    public Client majClient(Client client) {
         Client ret;
         try {
             ret = (Client)JpaUtil.obtenirEntityManager().merge(client);
@@ -45,7 +45,7 @@ public class ClientDaoJpa extends ClientDao {
     }
 
     @Override
-    public DaoError deleteClient(Client client) {
+    public DaoError supprimerClient(Client client) {
         try {
             JpaUtil.obtenirEntityManager().remove(client);
             error = DaoError.OK;
@@ -59,7 +59,7 @@ public class ClientDaoJpa extends ClientDao {
     }
 
     @Override
-    public Client findClientByNum(int numClient) {
+    public Client trouverClientParNum(int numClient) {
         Client ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c where c.numClient = :numClient");
@@ -76,7 +76,7 @@ public class ClientDaoJpa extends ClientDao {
     }
     
     @Override
-    public Client findClientByName(String unNom) {
+    public Client trouverClientParName(String unNom) {
         Client ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c where c.nom = :unNom");
@@ -93,7 +93,7 @@ public class ClientDaoJpa extends ClientDao {
     }
     
     @Override
-    public Client findClientByEMail(String email) {
+    public Client trouverClientParEMail(String email) {
         Client ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c where c.adrMail = :adrMail");
@@ -111,7 +111,7 @@ public class ClientDaoJpa extends ClientDao {
     }
     
     @Override
-    public List<Client> listingClient() {
+    public List<Client> listerClient() {
         List<Client> ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c");

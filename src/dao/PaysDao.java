@@ -35,10 +35,10 @@ public abstract class PaysDao {
         return errorMessage;
     }
     
-    public abstract DaoError createPays(Pays pays);
-    public abstract Pays updatePays(Pays pays);
-    public abstract DaoError deletePays(Pays pays);
-    public abstract Pays findPaysByNum(int numPays);
-    public abstract Pays findPaysByName(String unNom);
-    public abstract List<Pays> listingPays();
+    public abstract DaoError creerPays(Pays pays);
+    public abstract Pays majPays(Pays pays);
+    public abstract DaoError supprimerPays(Pays pays);
+    public abstract Pays trouverPaysParNum(int numPays);
+    public abstract Pays trouverPaysParNom(String unNom);
+    public abstract List<Pays> listerPays();
 }

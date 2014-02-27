@@ -4,6 +4,7 @@ package dao;
 import java.util.List;
 import javax.persistence.Query;
 import model.Client;
+import model.Pays;
 import model.Voyages;
 
 /**
@@ -14,7 +15,7 @@ public class VoyageDaoJpa extends VoyageDao {
     
     
     @Override
-    public DaoError createVoyage(Voyages voyage) {
+    public DaoError creerVoyage(Voyages voyage) {
         try {
             JpaUtil.obtenirEntityManager().persist(voyage);
             error = DaoError.OK;
@@ -27,7 +28,7 @@ public class VoyageDaoJpa extends VoyageDao {
     }
 
     @Override
-    public Voyages updateVoyage(Voyages  voyage) {
+    public Voyages majVoyage(Voyages  voyage) {
         Voyages ret;
         try {
             ret = (Voyages)JpaUtil.obtenirEntityManager().merge(voyage);
@@ -43,7 +44,7 @@ public class VoyageDaoJpa extends VoyageDao {
     }
 
     @Override
-    public DaoError deleteVoyage(Voyages voyage) {
+    public DaoError supprimerVoyage(Voyages voyage) {
         try {
             JpaUtil.obtenirEntityManager().remove(voyage);
             error = DaoError.OK;
@@ -57,7 +58,7 @@ public class VoyageDaoJpa extends VoyageDao {
     }
 
     @Override
-    public Voyages findVoyageByNum(int numVoyage) {
+    public Voyages trouverVoyageParNum(int numVoyage) {
         Voyages ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.numVoyage = :numVoyage");
@@ -74,7 +75,7 @@ public class VoyageDaoJpa extends VoyageDao {
     }
     
     @Override
-    public Voyages findVoyageByRef(String uneRef) {
+    public Voyages trouverVoyageParRef(String uneRef) {
         Voyages ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.ref = :uneRef");
@@ -93,10 +94,27 @@ public class VoyageDaoJpa extends VoyageDao {
    
     
     @Override
-    public List<Voyages> listingVoyages() {
+    public List<Voyages> listerVoyages() {
         List<Voyages> ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c");
+            ret = (List<Voyages>) q.getResultList();
+            error = DaoError.OK;
+        }
+        catch(Exception e)
+        {
+            error = DaoError.GENERIC_ERROR;
+            errorMessage = e.getMessage();
+        }
+        return ret;
+    }
+
+    @Override
+    public List<Voyages> listerVoyagesParPays(Pays pays) {
+        List<Voyages> ret = null;
+        try {
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays");
+            q.setParameter(":pays", pays);
             ret = (List<Voyages>) q.getResultList();
             error = DaoError.OK;
         }

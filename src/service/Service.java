@@ -5,9 +5,13 @@
 package service;
 
 import dao.ClientDao;
-import dao.DaoError;
 import dao.ClientDaoJpa;
+import dao.DaoError;
 import dao.JpaUtil;
+import dao.PaysDao;
+import dao.PaysDaoJpa;
+import dao.VoyageDao;
+import dao.VoyageDaoJpa;
 import java.util.List;
 import model.Client;
 import model.Conseillers;
@@ -41,6 +45,8 @@ public class Service {
     }
     
     private ClientDao clientDao = new ClientDaoJpa();
+    private PaysDao paysDao = new PaysDaoJpa();
+    private VoyageDao voyageDao = new VoyageDaoJpa();
     
     /**
      *
@@ -50,7 +56,7 @@ public class Service {
     public int InscriptionClient(Client client) {
         int ret = -1;
         JpaUtil.creerEntityManager();
-        clientDao.findClientByEMail(client.getEMail());
+        clientDao.trouverClientParEMail(client.getEMail());
         if(clientDao.getError() == DaoError.OK) {
             error = ServiceError.EXISTING_EMAIL;
             JpaUtil.fermerEntityManager();
@@ -58,7 +64,7 @@ public class Service {
         else {
             try {
                 JpaUtil.ouvrirTransaction();
-                if(clientDao.createClient(client) != DaoError.OK)
+                if(clientDao.creerClient(client) != DaoError.OK)
                     throw new Exception(clientDao.getErrorMessage());
                 JpaUtil.validerTransaction();
                 ret = client.getNum();
@@ -82,7 +88,7 @@ public class Service {
     public Client ConnexionClient(String email, String motDePasse) {
         Client returnClient = null;
         JpaUtil.creerEntityManager();
-        returnClient = clientDao.findClientByEMail(email);
+        returnClient = clientDao.trouverClientParEMail(email);
         if(clientDao.getError() != DaoError.OK) {
             error = ServiceError.WRONG_EMAIL;
             errorMessage = clientDao.getErrorMessage();
@@ -97,7 +103,7 @@ public class Service {
         return returnClient;
     }
 
-    public List<Voyages> RechercheVoyage(TypeTransport type, String pays) {
+    public List<Voyages> RechercheVoyage(TypeTransport type, Pays pays) {
         throw new NotImplementedException();
     }
     

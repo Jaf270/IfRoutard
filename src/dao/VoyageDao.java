@@ -7,6 +7,7 @@
 package dao;
 
 import java.util.List;
+import model.Pays;
 import model.Voyages;
 
 /**
@@ -34,10 +35,11 @@ public abstract class VoyageDao {
         return errorMessage;
     }
     
-    public abstract DaoError createVoyage(Voyages voyage);
-    public abstract Voyages updateVoyage(Voyages voyage);
-    public abstract DaoError deleteVoyage(Voyages voyage);
-    public abstract Voyages findVoyageByNum(int numVoyage);
-    public abstract Voyages findVoyageByRef(String uneRef);
-    public abstract List<Voyages> listingVoyages();
+    public abstract DaoError creerVoyage(Voyages voyage);
+    public abstract Voyages majVoyage(Voyages voyage);
+    public abstract DaoError supprimerVoyage(Voyages voyage);
+    public abstract Voyages trouverVoyageParNum(int numVoyage);
+    public abstract Voyages trouverVoyageParRef(String uneRef);
+    public abstract List<Voyages> listerVoyages();
+    public abstract List<Voyages> listerVoyagesParPays(Pays pays);
 }

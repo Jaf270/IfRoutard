@@ -17,7 +17,7 @@ import model.Pays;
 public class PaysDaoJpa extends PaysDao {
     
     @Override
-    public DaoError createPays(Pays pays) {
+    public DaoError creerPays(Pays pays) {
         try {
             JpaUtil.obtenirEntityManager().persist(pays);
             error = DaoError.OK;
@@ -30,7 +30,7 @@ public class PaysDaoJpa extends PaysDao {
     }
 
     @Override
-    public Pays updatePays(Pays pays) {
+    public Pays majPays(Pays pays) {
         Pays ret;
         try {
             ret = (Pays)JpaUtil.obtenirEntityManager().merge(pays);
@@ -46,7 +46,7 @@ public class PaysDaoJpa extends PaysDao {
     }
 
     @Override
-    public DaoError deletePays(Pays pays) {
+    public DaoError supprimerPays(Pays pays) {
         try {
             JpaUtil.obtenirEntityManager().remove(pays);
             error = DaoError.OK;
@@ -60,7 +60,7 @@ public class PaysDaoJpa extends PaysDao {
     }
 
     @Override
-    public Pays findPaysByNum(int numPays) {
+    public Pays trouverPaysParNum(int numPays) {
         Pays ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.numPays = :numPays");
@@ -77,7 +77,7 @@ public class PaysDaoJpa extends PaysDao {
     }
     
     @Override
-    public Pays findPaysByName(String unNom) {
+    public Pays trouverPaysParNom(String unNom) {
         Pays ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.nom = :unNom");
@@ -96,7 +96,7 @@ public class PaysDaoJpa extends PaysDao {
    
     
     @Override
-    public List<Pays> listingPays() {
+    public List<Pays> listerPays() {
         List<Pays> ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c");

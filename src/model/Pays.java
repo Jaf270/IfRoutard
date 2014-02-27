@@ -31,5 +31,29 @@ public class Pays {
     public int getId() {
         return id;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.numPays;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pays other = (Pays) obj;
+        if (this.numPays != other.numPays) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

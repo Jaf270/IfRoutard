@@ -26,6 +26,7 @@ public abstract class Voyages {
     private int durée;  
     @ManyToOne (cascade = CascadeType.ALL)
     private Pays pays;
+    
     public int getId() {
         return id;
     }

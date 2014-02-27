@@ -28,12 +28,12 @@ public abstract class ClientDao {
         return errorMessage;
     }
     
-    public abstract DaoError createClient(Client client);
-    public abstract Client updateClient(Client client);
-    public abstract DaoError deleteClient(Client client);
-    public abstract Client findClientByNum(int numClient);
-    public abstract Client findClientByName(String unNom);
-    public abstract Client findClientByEMail(String email);
-    public abstract List<Client> listingClient();
+    public abstract DaoError creerClient(Client client);
+    public abstract Client majClient(Client client);
+    public abstract DaoError supprimerClient(Client client);
+    public abstract Client trouverClientParNum(int numClient);
+    public abstract Client trouverClientParName(String unNom);
+    public abstract Client trouverClientParEMail(String email);
+    public abstract List<Client> listerClient();
     
 }
