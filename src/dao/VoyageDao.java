@@ -8,6 +8,7 @@ package dao;
 
 import java.util.List;
 import model.Pays;
+import model.TypeVoyage;
 import model.Voyages;
 
 /**
@@ -42,4 +43,5 @@ public abstract class VoyageDao {
     public abstract Voyages trouverVoyageParRef(String uneRef);
     public abstract List<Voyages> listerVoyages();
     public abstract List<Voyages> listerVoyagesParPays(Pays pays);
+    public abstract List<Voyages> listerVoyagesParTypeETPays(TypeVoyage type, Pays pays);
 }

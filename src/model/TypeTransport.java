@@ -20,7 +20,6 @@ public class TypeTransport {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private String type;
     private String description;
 
     public int getId() {

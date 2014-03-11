@@ -21,6 +21,7 @@ import model.Client;
 import model.Conseillers;
 import model.Devis;
 import model.Pays;
+import model.TypeVoyage;
 import model.Voyages;
 
 /**
@@ -115,10 +116,10 @@ public class Service {
         return returnClient;
     }
 
-    public List<Voyages> RechercheVoyage(Pays pays) {
+    public List<Voyages> RechercheVoyage(TypeVoyage type, Pays pays) {
         List<Voyages> liste;
         JpaUtil.creerEntityManager();
-        liste = voyageDao.listerVoyagesParPays(pays);
+        liste = voyageDao.listerVoyagesParTypeETPays(type, pays);
         if(voyageDao.getError() != DaoError.OK)
         {
             error = ServiceError.GENERIC_ERROR;

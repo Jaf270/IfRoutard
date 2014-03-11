@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.Conseillers;
-import model.Devis;
 
 /**
  *

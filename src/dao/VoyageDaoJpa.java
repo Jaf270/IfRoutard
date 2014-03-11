@@ -4,8 +4,8 @@ package dao;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import model.Client;
 import model.Pays;
+import model.TypeVoyage;
 import model.Voyages;
 
 /**
@@ -84,7 +84,7 @@ public class VoyageDaoJpa extends VoyageDao {
     public Voyages trouverVoyageParRef(String uneRef) {
         Voyages ret = null;
         try {
-            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.ref = :uneRef");
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.reference = :ref");
             q.setParameter("ref", uneRef);
             ret = (Voyages)q.getSingleResult();
             error = DaoError.OK;
@@ -124,7 +124,24 @@ public class VoyageDaoJpa extends VoyageDao {
         List<Voyages> ret = null;
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays");
-            q.setParameter(":pays", pays);
+            q.setParameter("pays", pays);
+            ret = (List<Voyages>) q.getResultList();
+            error = DaoError.OK;
+        }
+        catch(Exception e)
+        {
+            error = DaoError.GENERIC_ERROR;
+            errorMessage = e.getMessage();
+        }
+        return ret;
+    }
+
+    @Override
+    public List<Voyages> listerVoyagesParTypeETPays(TypeVoyage type, Pays pays) {
+        List<Voyages> ret = null;
+        try {
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays and type = :type");
+            q.setParameter("pays", pays).setParameter("type", type);
             ret = (List<Voyages>) q.getResultList();
             error = DaoError.OK;
         }

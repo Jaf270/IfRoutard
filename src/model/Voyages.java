@@ -3,6 +3,8 @@ package model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +24,12 @@ public abstract class Voyages {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private int num;
-    private String ref;
+    private String reference;
     private int durée;  
     @ManyToOne (cascade = CascadeType.ALL)
     private Pays pays;
+    @Enumerated (EnumType.STRING)
+    private TypeVoyage type;
     
     public int getId() {
         return id;
