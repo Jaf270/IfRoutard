@@ -1,6 +1,7 @@
 
 package model;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,18 +19,30 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Inheritance (strategy = InheritanceType.JOINED)
-public abstract class Voyages {
+public abstract class Voyages implements Serializable {
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private int num;
     private String reference;
-    private int durée;  
+    private int duree;  
     @ManyToOne (cascade = CascadeType.ALL)
     private Pays pays;
     @Enumerated (EnumType.STRING)
     private TypeVoyage type;
+    
+    public Voyages() {
+        
+    }
+
+    public Voyages(int num, String reference, int duree, Pays pays, TypeVoyage type) {
+        this.num = num;
+        this.reference = reference;
+        this.duree = duree;
+        this.pays = pays;
+        this.type = type;
+    }
     
     public int getId() {
         return id;
@@ -42,6 +55,7 @@ public abstract class Voyages {
     public Pays getPays() {
         return pays;
     }
+    
     
     
 }

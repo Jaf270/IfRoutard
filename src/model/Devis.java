@@ -6,9 +6,9 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
  * @author B3229
  */
 @Entity
-public class Devis {
+public class Devis implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -40,6 +40,21 @@ public class Devis {
     @ManyToOne (cascade = CascadeType.ALL)
     private Periodes periode;
 
+    public Devis() {
+        
+    }
+
+    public Devis(int num, Calendar datec, int nbPersonne, int montant, Conseillers conseiller, Client client, Voyages voyage, Periodes periode) {
+        this.num = num;
+        this.datec = datec;
+        this.nbPersonne = nbPersonne;
+        this.montant = montant;
+        this.conseiller = conseiller;
+        this.client = client;
+        this.voyage = voyage;
+        this.periode = periode;
+    }
+    
     public int getId() {
         return id;
     }

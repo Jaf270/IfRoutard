@@ -6,20 +6,20 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 /**
  *
 // * @author B3229
  */
 @Entity
-public class Conseillers {
+public class Conseillers implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -29,6 +29,18 @@ public class Conseillers {
     private int nbDevis;
     @ManyToMany
     private List<Pays> pays;
+    
+    public Conseillers() {
+        
+    }
+
+    public Conseillers(int num, String nom, String prenom, int nbDevis, List<Pays> pays) {
+        this.num = num;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.nbDevis = nbDevis;
+        this.pays = pays;
+    }
 
     public int getId() {
         return id;

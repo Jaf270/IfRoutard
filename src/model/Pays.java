@@ -6,6 +6,7 @@
 
 package model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ import javax.persistence.Id;
  * @author B3229
  */
 @Entity
-public class Pays {
+public class Pays implements Serializable {
    
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -28,6 +29,18 @@ public class Pays {
     private long nbHab;
     private String langue;
 
+    public Pays() {
+    }
+
+    public Pays(int num, String nom, String capitale, int superficie, long nbHab, String langue) {
+        this.num = num;
+        this.nom = nom;
+        this.capitale = capitale;
+        this.superficie = superficie;
+        this.nbHab = nbHab;
+        this.langue = langue;
+    }
+    
     public int getId() {
         return id;
     }

@@ -6,6 +6,7 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,19 +22,28 @@ import javax.persistence.TemporalType;
  * @author B3229
  */
 @Entity
-public class Periodes {
+public class Periodes implements Serializable {
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String ville;
-    @Column(name = "DATE")
     @Temporal(TemporalType.DATE)
-    private Calendar date;
+    private Calendar datep;
     private int montant;
     @ManyToMany
     private TypeTransport typeTransport;
 
+    public Periodes() {
+    }
+
+    public Periodes(String ville, Calendar datep, int montant, TypeTransport typeTransport) {
+        this.ville = ville;
+        this.datep = datep;
+        this.montant = montant;
+        this.typeTransport = typeTransport;
+    }
+    
     public int getId() {
         return id;
     }

@@ -6,6 +6,7 @@
 
 package model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +17,19 @@ import javax.persistence.Id;
  * @author B3229
  */
 @Entity
-public class TypeTransport {
+public class TypeTransport implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String description;
 
+    public TypeTransport() {
+    }
+
+    public TypeTransport(String description) {
+        this.description = description;
+    }
+    
     public int getId() {
         return id;
     }
