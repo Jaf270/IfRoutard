@@ -6,21 +6,22 @@ package service;
 
 import dao.ClientDao;
 import dao.ClientDaoJpa;
+import dao.ConseillerDao;
+import dao.ConseillerDaoJpa;
 import dao.DaoError;
+import dao.DevisDao;
+import dao.DevisDaoJpa;
 import dao.JpaUtil;
 import dao.PaysDao;
 import dao.PaysDaoJpa;
 import dao.VoyageDao;
 import dao.VoyageDaoJpa;
-import java.util.Iterator;
 import java.util.List;
 import model.Client;
 import model.Conseillers;
 import model.Devis;
 import model.Pays;
-import model.TypeTransport;
 import model.Voyages;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -48,6 +49,8 @@ public class Service {
     private ClientDao clientDao = new ClientDaoJpa();
     private PaysDao paysDao = new PaysDaoJpa();
     private VoyageDao voyageDao = new VoyageDaoJpa();
+    private DevisDao devisDao = new DevisDaoJpa();
+    private ConseillerDao conseillerDao = new ConseillerDaoJpa();
     
     /**
      *
@@ -169,37 +172,202 @@ public class Service {
     }
     
     public Pays DetailPays(int numPays) {
-        
+        Pays ret;
         JpaUtil.creerEntityManager();
-        
+        ret = paysDao.trouverPaysParNum(numPays);
+        if(paysDao.getError() == DaoError.OK)
+        {
+            error = ServiceError.OK;
+        }
+        else if(paysDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = paysDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public Conseillers CréerDevis(Devis devis) {
-        throw new NotImplementedException();
+        JpaUtil.creerEntityManager();
+        Conseillers ret = conseillerDao.trouverConseillerMinimumDevis();
+        if(conseillerDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else if(conseillerDao.getError() == DaoError.OK)
+        {
+            JpaUtil.ouvrirTransaction();
+            ret.ajouterDevis();
+            ret = conseillerDao.majConseiller(ret);
+            if(conseillerDao.getError() == DaoError.OK)
+            {
+                devis.setConseiller(ret);
+                devisDao.creerDevis(devis);
+                if(devisDao.getError() == DaoError.OK)
+                {
+                    JpaUtil.validerTransaction();
+                    error = ServiceError.OK;
+                }
+                else
+                {
+                    JpaUtil.annulerTransaction();
+                    error = ServiceError.GENERIC_ERROR;
+                    errorMessage = devisDao.getErrorMessage();
+                }
+            }
+            else
+            {
+                JpaUtil.annulerTransaction();
+                error = ServiceError.GENERIC_ERROR;
+                errorMessage = conseillerDao.getErrorMessage();
+            }
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = conseillerDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public int AjouterPays(Pays pays) {
-        throw new NotImplementedException();
+        int ret = -1;
+        JpaUtil.creerEntityManager();
+        paysDao.creerPays(pays);
+        if(paysDao.getError() == DaoError.OK)
+        {
+            ret = pays.getNum();
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = paysDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public int EditionPays(Pays pays) {
-        throw new NotImplementedException();
+        int ret = -1;
+        JpaUtil.creerEntityManager();
+        pays = paysDao.majPays(pays);
+        if(paysDao.getError() == DaoError.OK)
+        {
+            ret = pays.getNum();
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = paysDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public boolean SuppressionPays(int numPays) {
-        throw new NotImplementedException();
+        boolean ret = false;
+        JpaUtil.creerEntityManager();
+        Pays toDelete = paysDao.trouverPaysParNum(numPays);
+        if(paysDao.getError() == DaoError.OK)
+        {
+            paysDao.supprimerPays(toDelete);
+            if(paysDao.getError() == DaoError.OK)
+            {
+                ret = true;
+                error = ServiceError.OK;
+            }
+            else
+            {
+                error = ServiceError.GENERIC_ERROR;
+                errorMessage = paysDao.getErrorMessage();
+            }
+        }
+        else if(paysDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = paysDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public int AjouterVoyage(Voyages voyage) {
-        throw new NotImplementedException();
+        int ret = -1;
+        JpaUtil.creerEntityManager();
+        voyageDao.creerVoyage(voyage);
+        if(voyageDao.getError() == DaoError.OK)
+        {
+            ret = voyage.getNum();
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = voyageDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public int EditionVoyage(Voyages voyage) {
-        throw new NotImplementedException();
+        int ret = -1;
+        JpaUtil.creerEntityManager();
+        voyage = voyageDao.majVoyage(voyage);
+        if(voyageDao.getError() == DaoError.OK)
+        {
+            ret = voyage.getNum();
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = voyageDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public boolean SuppressionVoyage(int numVoyage) {
-        throw new NotImplementedException();
+        boolean ret = false;
+        JpaUtil.creerEntityManager();
+        Voyages toDelete = voyageDao.trouverVoyageParNum(numVoyage);
+        if(voyageDao.getError() == DaoError.OK)
+        {
+            voyageDao.supprimerVoyage(toDelete);
+            if(voyageDao.getError() == DaoError.OK)
+            {
+                ret = true;
+                error = ServiceError.OK;
+            }
+            else
+            {
+                error = ServiceError.GENERIC_ERROR;
+                errorMessage = voyageDao.getErrorMessage();
+            }
+        }
+        else if(voyageDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = voyageDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
 }

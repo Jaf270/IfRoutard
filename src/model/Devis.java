@@ -26,10 +26,9 @@ public class Devis {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int numDevis;
-    @Column(name = "DATE")
+    private int num;
     @Temporal(TemporalType.DATE)
-    private Calendar date;
+    private Calendar datec;
     private int nbPersonne;
     private int montant;
     @ManyToOne (cascade = CascadeType.ALL)
@@ -43,6 +42,11 @@ public class Devis {
 
     public int getId() {
         return id;
+    }
+    
+    public void setConseiller(Conseillers cons)
+    {
+        this.conseiller = cons;
     }
     
 }

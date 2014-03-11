@@ -63,7 +63,7 @@ public class VoyageDaoJpa extends VoyageDao {
         Voyages ret = null;
         try
         {
-            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.numVoyage = :numVoyage");
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.num = :numVoyage");
             q.setParameter("numVoyage", numVoyage);
             ret = (Voyages)q.getSingleResult();
             error = DaoError.OK;

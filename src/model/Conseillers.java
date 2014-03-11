@@ -20,12 +20,22 @@ public class Conseillers {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int numConseiller;
+    private int num;
     private String nom;
     private String prenom;
+    private int nbDevis;
 
     public int getId() {
         return id;
+    }
+    
+    public void ajouterDevis()
+    {
+        nbDevis++;
+    }
+    
+    public void enleverDevis() {
+        nbDevis--;
     }
     
 }

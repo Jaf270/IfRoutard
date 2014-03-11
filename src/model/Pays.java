@@ -21,7 +21,7 @@ public class Pays {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int numPays;
+    private int num;
     private String nom;
     private String capitale;
     private int superficie;
@@ -32,10 +32,14 @@ public class Pays {
         return id;
     }
 
+    public int getNum() {
+        return num;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.numPays;
+        hash = 17 * hash + this.num;
         return hash;
     }
 
@@ -48,7 +52,7 @@ public class Pays {
             return false;
         }
         final Pays other = (Pays) obj;
-        if (this.numPays != other.numPays) {
+        if (this.num != other.num) {
             return false;
         }
         return true;

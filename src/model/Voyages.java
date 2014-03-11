@@ -21,8 +21,8 @@ public abstract class Voyages {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int numV;
-    private String reference;
+    private int num;
+    private String ref;
     private int durée;  
     @ManyToOne (cascade = CascadeType.ALL)
     private Pays pays;
@@ -30,4 +30,10 @@ public abstract class Voyages {
     public int getId() {
         return id;
     }
+
+    public int getNum() {
+        return num;
+    }
+    
+    
 }
