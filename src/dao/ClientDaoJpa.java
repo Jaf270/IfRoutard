@@ -5,6 +5,7 @@
 package dao;
 
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.Client;
 
@@ -67,6 +68,10 @@ public class ClientDaoJpa extends ClientDao {
             ret = (Client)q.getSingleResult();
             error = DaoError.OK;
         }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
+        }
         catch(Exception e)
         {
             error = DaoError.GENERIC_ERROR;
@@ -84,6 +89,10 @@ public class ClientDaoJpa extends ClientDao {
             ret = (Client)q.getSingleResult();
             error = DaoError.OK;
         }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
+        }
         catch(Exception e)
         {
             error = DaoError.GENERIC_ERROR;
@@ -100,6 +109,10 @@ public class ClientDaoJpa extends ClientDao {
             q.setParameter("adrMail", email);
             ret = (Client)q.getSingleResult();
             error = DaoError.OK;
+        }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
         }
         catch(Exception e)
         {

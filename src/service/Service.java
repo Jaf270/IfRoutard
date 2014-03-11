@@ -12,6 +12,7 @@ import dao.PaysDao;
 import dao.PaysDaoJpa;
 import dao.VoyageDao;
 import dao.VoyageDaoJpa;
+import java.util.Iterator;
 import java.util.List;
 import model.Client;
 import model.Conseillers;
@@ -65,7 +66,9 @@ public class Service {
             try {
                 JpaUtil.ouvrirTransaction();
                 if(clientDao.creerClient(client) != DaoError.OK)
+                {
                     throw new Exception(clientDao.getErrorMessage());
+                }
                 JpaUtil.validerTransaction();
                 ret = client.getNum();
                 error = ServiceError.OK;
@@ -89,34 +92,86 @@ public class Service {
         Client returnClient = null;
         JpaUtil.creerEntityManager();
         returnClient = clientDao.trouverClientParEMail(email);
-        if(clientDao.getError() != DaoError.OK) {
-            error = ServiceError.WRONG_EMAIL;
+        if(clientDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else if(clientDao.getError() != DaoError.OK) {
+            error = ServiceError.GENERIC_ERROR;
             errorMessage = clientDao.getErrorMessage();
         }
-        else if(!returnClient.getMotDePasse().equals(motDePasse)) {
+        else if(!returnClient.getMotDePasse().equals(motDePasse))
+        {
             error = ServiceError.WRONG_PASSWORD;
         }
-        else {
+        else
+        {
             error = ServiceError.OK;
         }
         JpaUtil.fermerEntityManager();
         return returnClient;
     }
 
-    public List<Voyages> RechercheVoyage(TypeTransport type, Pays pays) {
-        throw new NotImplementedException();
+    public List<Voyages> RechercheVoyage(Pays pays) {
+        List<Voyages> liste;
+        JpaUtil.creerEntityManager();
+        liste = voyageDao.listerVoyagesParPays(pays);
+        if(voyageDao.getError() != DaoError.OK)
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = voyageDao.getErrorMessage();
+        }
+        else
+        {
+            error = ServiceError.OK;
+        }
+        JpaUtil.fermerEntityManager();
+        return liste;
     }
     
     public Voyages DetailsVoyage(int numVoyage) {
-        throw new NotImplementedException();
+        Voyages ret;
+        JpaUtil.creerEntityManager();
+        ret = voyageDao.trouverVoyageParNum(numVoyage);
+        if(voyageDao.getError() == DaoError.OK)
+        {
+            error = ServiceError.OK;
+        }
+        else if(voyageDao.getError() == DaoError.NOT_FOUND)
+        {
+            error = ServiceError.NOT_FOUND;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = voyageDao.getErrorMessage();
+        }
+        
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public List<Pays> RecherchePays() {
-        throw  new NotImplementedException();
+        List<Pays> ret;
+        JpaUtil.creerEntityManager();
+        ret = paysDao.listerPays();
+        if(paysDao.getError() == DaoError.OK)
+        {
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = paysDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
     }
     
     public Pays DetailPays(int numPays) {
-        throw new NotImplementedException();
+        
+        JpaUtil.creerEntityManager();
+        
     }
     
     public Conseillers CréerDevis(Devis devis) {

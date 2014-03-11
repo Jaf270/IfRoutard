@@ -7,6 +7,7 @@
 package dao;
 
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.Pays;
 
@@ -68,6 +69,10 @@ public class PaysDaoJpa extends PaysDao {
             ret = (Pays)q.getSingleResult();
             error = DaoError.OK;
         }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
+        }
         catch(Exception e)
         {
             error = DaoError.GENERIC_ERROR;
@@ -84,6 +89,10 @@ public class PaysDaoJpa extends PaysDao {
             q.setParameter("ref", unNom);
             ret = (Pays)q.getSingleResult();
             error = DaoError.OK;
+        }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
         }
         catch(Exception e)
         {

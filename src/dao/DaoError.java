@@ -6,5 +6,6 @@ package dao;
  */
 public enum DaoError {
     OK,
-    GENERIC_ERROR
+    GENERIC_ERROR,
+    NOT_FOUND
 }

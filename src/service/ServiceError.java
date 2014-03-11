@@ -11,6 +11,7 @@ package service;
 public enum ServiceError {
     OK,
     GENERIC_ERROR,
+    NOT_FOUND,
     EXISTING_EMAIL,
     WRONG_EMAIL,
     WRONG_PASSWORD

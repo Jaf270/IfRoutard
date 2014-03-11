@@ -2,6 +2,7 @@
 package dao;
 
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.Client;
 import model.Pays;
@@ -60,11 +61,16 @@ public class VoyageDaoJpa extends VoyageDao {
     @Override
     public Voyages trouverVoyageParNum(int numVoyage) {
         Voyages ret = null;
-        try {
+        try
+        {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.numVoyage = :numVoyage");
             q.setParameter("numVoyage", numVoyage);
             ret = (Voyages)q.getSingleResult();
             error = DaoError.OK;
+        }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
         }
         catch(Exception e)
         {
@@ -82,6 +88,10 @@ public class VoyageDaoJpa extends VoyageDao {
             q.setParameter("ref", uneRef);
             ret = (Voyages)q.getSingleResult();
             error = DaoError.OK;
+        }
+        catch(NoResultException e)
+        {
+            error = DaoError.NOT_FOUND;
         }
         catch(Exception e)
         {
