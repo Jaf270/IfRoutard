@@ -38,6 +38,10 @@ public abstract class Voyages {
     public int getNum() {
         return num;
     }
+
+    public Pays getPays() {
+        return pays;
+    }
     
     
 }

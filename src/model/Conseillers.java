@@ -6,10 +6,13 @@
 
 package model;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -24,6 +27,8 @@ public class Conseillers {
     private String nom;
     private String prenom;
     private int nbDevis;
+    @ManyToMany
+    private List<Pays> pays;
 
     public int getId() {
         return id;
@@ -36,6 +41,11 @@ public class Conseillers {
     
     public void enleverDevis() {
         nbDevis--;
+    }
+    
+    public boolean estSpecialise(Pays pays)
+    {
+        return this.pays.contains(pays); 
     }
     
 }

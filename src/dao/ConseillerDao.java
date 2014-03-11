@@ -8,6 +8,7 @@ package dao;
 
 import java.util.List;
 import model.Conseillers;
+import model.Pays;
 
 /**
  *
@@ -38,6 +39,6 @@ public abstract class ConseillerDao {
     public abstract Conseillers majConseiller(Conseillers conseiller);
     public abstract DaoError supprimerConseiller(Conseillers conseiller);
     public abstract Conseillers trouverConseillerParNum(int numConseiller);
-    public abstract Conseillers trouverConseillerMinimumDevis();
+    public abstract Conseillers trouverConseillerAdequat(Pays pays);
     public abstract List<Conseillers> listerConseillers();
 }

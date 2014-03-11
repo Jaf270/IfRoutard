@@ -4,10 +4,12 @@
  */
 package dao;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.Conseillers;
+import model.Pays;
 
 /**
  *
@@ -97,13 +99,20 @@ public class ConseillerDaoJpa extends ConseillerDao
     }
 
     @Override
-    public Conseillers trouverConseillerMinimumDevis() {
+    public Conseillers trouverConseillerAdequat(Pays pays) {
         Conseillers ret = null;
         try
         {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Conseillers c order by nbDevis ASC");
-            q.setMaxResults(1);
             List<Conseillers> list = q.getResultList();
+            for(Iterator<Conseillers> it = list.iterator();it.hasNext();)
+            {
+                Conseillers c = it.next();
+                if(!c.estSpecialise(pays))
+                {
+                    it.remove();
+                }
+            }
             if(list.isEmpty())
             {
                 ret = null;
@@ -111,6 +120,7 @@ public class ConseillerDaoJpa extends ConseillerDao
             }
             else
             {
+                
                 ret = list.get(0);
                 error = DaoError.OK;
             }

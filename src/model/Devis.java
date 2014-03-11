@@ -49,4 +49,8 @@ public class Devis {
         this.conseiller = cons;
     }
     
+    public Pays getPays() {
+        return voyage.getPays();
+    }
+    
 }

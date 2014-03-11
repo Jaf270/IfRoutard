@@ -195,7 +195,7 @@ public class Service {
     
     public Conseillers CréerDevis(Devis devis) {
         JpaUtil.creerEntityManager();
-        Conseillers ret = conseillerDao.trouverConseillerMinimumDevis();
+        Conseillers ret = conseillerDao.trouverConseillerAdequat(devis.getPays());
         if(conseillerDao.getError() == DaoError.NOT_FOUND)
         {
             error = ServiceError.NOT_FOUND;
