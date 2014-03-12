@@ -2,6 +2,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public abstract class Voyages implements Serializable {
     private int num;
     private String reference;
     private int duree;  
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Pays pays;
     @Enumerated (EnumType.STRING)
     private TypeVoyage type;
@@ -64,6 +65,13 @@ public abstract class Voyages implements Serializable {
     public void ajouterPeriode(Periodes periode)
     {
         this.periodes.add(periode);
+    }
+    
+    public Periodes getRandomPeriode()
+    {
+        List<Periodes> p = this.periodes;
+        Collections.shuffle(p);
+        return p.get(0);
     }
     
 }

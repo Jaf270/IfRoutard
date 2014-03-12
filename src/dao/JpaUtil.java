@@ -62,7 +62,7 @@ public class JpaUtil {
      * <br/><strong>À utiliser uniquement au niveau Service.</strong>
      */
     public static void creerEntityManager() {
-        log("création du contexte de persistance");
+        //log("création du contexte de persistance");
         threadLocalEntityManager.set(entityManagerFactory.createEntityManager());
     }
 
@@ -71,7 +71,7 @@ public class JpaUtil {
      * <br/><strong>À utiliser uniquement au niveau Service.</strong>
      */
     public static void fermerEntityManager() {
-        log("fermeture du contexte de persistance");
+        //log("fermeture du contexte de persistance");
         EntityManager em = threadLocalEntityManager.get();
         em.close();
         threadLocalEntityManager.set(null);
@@ -82,7 +82,7 @@ public class JpaUtil {
      * <br/><strong>À utiliser uniquement au niveau Service.</strong>
      */
     public static void ouvrirTransaction() {
-        log("debut transaction");
+        //log("debut transaction");
         EntityManager em = threadLocalEntityManager.get();
         em.getTransaction().begin();
     }
@@ -93,7 +93,7 @@ public class JpaUtil {
      * @exception RollbackException lorsque le <em>commit</em> n'a pas réussi.
      */
     public static void validerTransaction() throws RollbackException {
-        log("commit transaction");
+        //log("commit transaction");
         EntityManager em = threadLocalEntityManager.get();
         em.getTransaction().commit();
     }
@@ -104,10 +104,10 @@ public class JpaUtil {
      * <br/><strong>À utiliser uniquement au niveau Service.</strong>
      */
     public static void annulerTransaction() {
-        log("rollback transaction");
+        //log("rollback transaction");
         EntityManager em = threadLocalEntityManager.get();
         if (em.getTransaction().isActive()) {
-            log("rollback transaction effectue");
+            //log("rollback transaction effectue");
             em.getTransaction().rollback();
         }
     }
@@ -118,7 +118,7 @@ public class JpaUtil {
      * @return instance de Entity Manager
      */
     protected static EntityManager obtenirEntityManager() {
-        log("obtention du contexte de persistance");
+        //log("obtention du contexte de persistance");
         return threadLocalEntityManager.get();
     }
 }

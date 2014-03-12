@@ -19,10 +19,13 @@ public class VoyageDaoJpa extends VoyageDao {
     @Override
     public DaoError creerVoyage(Voyages voyage) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(voyage);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -33,11 +36,14 @@ public class VoyageDaoJpa extends VoyageDao {
     public Voyages majVoyage(Voyages  voyage) {
         Voyages ret;
         try {
+            JpaUtil.ouvrirTransaction();
             ret = (Voyages)JpaUtil.obtenirEntityManager().merge(voyage);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -48,11 +54,14 @@ public class VoyageDaoJpa extends VoyageDao {
     @Override
     public DaoError supprimerVoyage(Voyages voyage) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().remove(voyage);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }

@@ -16,6 +16,11 @@ import dao.PaysDao;
 import dao.PaysDaoJpa;
 import dao.VoyageDao;
 import dao.VoyageDaoJpa;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import model.Client;
 import model.Conseillers;
@@ -203,6 +208,26 @@ public class Service {
         }
         JpaUtil.fermerEntityManager();
         return ret;
+    }
+    
+    public static void getRandomDevis()
+    {
+        List<Client> clis = clientDao.listerClient();
+        List<Voyages> voys = voyageDao.listerVoyages();
+        
+        if(clis.isEmpty())
+            System.err.println("Attention, pas de client");
+        if(voys.isEmpty())
+            System.err.println("Attention, pas de voyage");
+        
+        Collections.shuffle(clis);
+        Collections.shuffle(voys);
+        
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        
+        Devis devis = new Devis(0, cal, 2, clis.get(1), voys.get(1), voys.get(1).getRandomPeriode());
+        Service.CréerDevis(devis);
     }
     
 // ============= Fin Module Devis =============================================

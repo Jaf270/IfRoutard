@@ -20,10 +20,13 @@ public class ClientDaoJpa extends ClientDao {
     @Override
     public DaoError creerClient(Client client) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(client);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -34,11 +37,14 @@ public class ClientDaoJpa extends ClientDao {
     public Client majClient(Client client) {
         Client ret;
         try {
+            JpaUtil.ouvrirTransaction();
             ret = (Client)JpaUtil.obtenirEntityManager().merge(client);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -49,11 +55,14 @@ public class ClientDaoJpa extends ClientDao {
     @Override
     public DaoError supprimerClient(Client client) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().remove(client);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }

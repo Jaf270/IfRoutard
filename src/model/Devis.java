@@ -31,25 +31,25 @@ public class Devis implements Serializable {
     private Calendar datec;
     private int nbPersonne;
     private int montant;
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Conseillers conseiller;
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Client client;
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Voyages voyage;
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Periodes periode;
 
     public Devis() {
         
     }
 
-    public Devis(int num, Calendar datec, int nbPersonne, int montant, Conseillers conseiller, Client client, Voyages voyage, Periodes periode) {
+    public Devis(int num, Calendar datec, int nbPersonne, Client client, Voyages voyage, Periodes periode) {
         this.num = num;
         this.datec = datec;
         this.nbPersonne = nbPersonne;
-        this.montant = montant;
-        this.conseiller = conseiller;
+        this.montant = periode.getMontantTotal(nbPersonne);
+        this.conseiller = null;
         this.client = client;
         this.voyage = voyage;
         this.periode = periode;

@@ -19,10 +19,13 @@ public class DevisDaoJpa extends DevisDao
     @Override
     public DaoError creerDevis(Devis devis) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(devis);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -33,11 +36,14 @@ public class DevisDaoJpa extends DevisDao
     public Devis majDevis(Devis devis) {
         Devis ret;
         try {
+            JpaUtil.ouvrirTransaction();
             ret = (Devis)JpaUtil.obtenirEntityManager().merge(devis);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -48,11 +54,14 @@ public class DevisDaoJpa extends DevisDao
     @Override
     public DaoError supprimerDevis(Devis devis) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().remove(devis);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }

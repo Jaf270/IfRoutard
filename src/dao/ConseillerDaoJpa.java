@@ -21,10 +21,13 @@ public class ConseillerDaoJpa extends ConseillerDao
     @Override
     public DaoError creerConseiller(Conseillers conseiller) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(conseiller);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -35,11 +38,14 @@ public class ConseillerDaoJpa extends ConseillerDao
     public Conseillers majConseiller(Conseillers conseiller) {
         Conseillers ret;
         try {
+            JpaUtil.ouvrirTransaction();
             ret = (Conseillers)JpaUtil.obtenirEntityManager().merge(conseiller);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -50,11 +56,14 @@ public class ConseillerDaoJpa extends ConseillerDao
     @Override
     public DaoError supprimerConseiller(Conseillers conseiller) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().remove(conseiller);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }

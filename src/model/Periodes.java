@@ -48,4 +48,9 @@ public class Periodes implements Serializable {
         return id;
     }
     
+    public int getMontantTotal(int nbPersonnes)
+    {
+        return nbPersonnes*montant;
+    }
+    
 }

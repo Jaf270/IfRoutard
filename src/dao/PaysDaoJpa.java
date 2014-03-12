@@ -21,10 +21,13 @@ public class PaysDaoJpa extends PaysDao {
     @Override
     public DaoError creerPays(Pays pays) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(pays);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -35,11 +38,14 @@ public class PaysDaoJpa extends PaysDao {
     public Pays majPays(Pays pays) {
         Pays ret;
         try {
+            JpaUtil.ouvrirTransaction();
             ret = (Pays)JpaUtil.obtenirEntityManager().merge(pays);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -50,11 +56,14 @@ public class PaysDaoJpa extends PaysDao {
     @Override
     public DaoError supprimerPays(Pays pays) {
         try {
+            JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().remove(pays);
+            JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
+            JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }

@@ -250,7 +250,7 @@ public class LectureDonneesCsv {
         String region = descriptionPays[2];
         String capitale = descriptionPays[3];
         String langues = descriptionPays[4];
-        Integer superficie = Integer.parseInt(descriptionPays[5]);
+        int superficie = (int)Float.parseFloat(descriptionPays[5]);
         float population = Float.parseFloat(descriptionPays[6]);
         String regime = descriptionPays[7];
         
@@ -412,8 +412,8 @@ public class LectureDonneesCsv {
             Pays temp = Service.DetailPays(descriptionConseiller[i]);
             if(Service.getError() == ServiceError.OK)
                 pays.add(temp);
-            else
-                break;
+            //else
+                //break;
         }
         if(!pays.isEmpty() && pays.size() == nbPays)
         {
@@ -421,6 +421,10 @@ public class LectureDonneesCsv {
             Service.ajouterConseiller(cons);
             if(Service.getError() != ServiceError.OK)
                 System.out.println(Service.getErrorMessage());
+        }
+        else
+        {
+            System.err.println("Erreur, pays non trouvés");
         }
     }
     
@@ -506,28 +510,31 @@ public class LectureDonneesCsv {
             String fichierSejours = cheminFichier+"IFRoutard-Voyages-Sejours.csv";
             
             LectureDonneesCsv lectureDonneesCsv_Clients = new LectureDonneesCsv(fichierClients);
-            lectureDonneesCsv_Clients.lireClients(10);
+            lectureDonneesCsv_Clients.lireClients(200);
             lectureDonneesCsv_Clients.fermer();
 
             LectureDonneesCsv lectureDonneesCsv_Pays = new LectureDonneesCsv(fichierPays);
-            lectureDonneesCsv_Pays.lirePays(10);
+            lectureDonneesCsv_Pays.lirePays(-1);
             lectureDonneesCsv_Pays.fermer();
             
-//            LectureDonneesCsv lectureDonneesCsv_Circuits = new LectureDonneesCsv(fichierCircuits);
-//            lectureDonneesCsv_Circuits.lireCircuits(10);
-//            lectureDonneesCsv_Circuits.fermer();
-//            
-//            LectureDonneesCsv lectureDonneesCsv_Sejours = new LectureDonneesCsv(fichierSejours);
-//            lectureDonneesCsv_Sejours.lireSejours(10);
-//            lectureDonneesCsv_Sejours.fermer();
-//            
-//            LectureDonneesCsv lectureDonneesCsv_Conseillers = new LectureDonneesCsv(fichierConseillers);
-//            lectureDonneesCsv_Conseillers.lireConseillers(10);
-//            lectureDonneesCsv_Conseillers.fermer();
-//            
-//            LectureDonneesCsv lectureDonneesCsv_Periodes = new LectureDonneesCsv(fichierDeparts);
-//            lectureDonneesCsv_Periodes.lirePeriodes(10);
-//            lectureDonneesCsv_Periodes.fermer();
+            LectureDonneesCsv lectureDonneesCsv_Circuits = new LectureDonneesCsv(fichierCircuits);
+            lectureDonneesCsv_Circuits.lireCircuits(-1);
+            lectureDonneesCsv_Circuits.fermer();
+            
+            LectureDonneesCsv lectureDonneesCsv_Sejours = new LectureDonneesCsv(fichierSejours);
+            lectureDonneesCsv_Sejours.lireSejours(-1);
+            lectureDonneesCsv_Sejours.fermer();
+            
+            LectureDonneesCsv lectureDonneesCsv_Conseillers = new LectureDonneesCsv(fichierConseillers);
+            lectureDonneesCsv_Conseillers.lireConseillers(-1);
+            lectureDonneesCsv_Conseillers.fermer();
+            
+            LectureDonneesCsv lectureDonneesCsv_Periodes = new LectureDonneesCsv(fichierDeparts);
+            lectureDonneesCsv_Periodes.lirePeriodes(-1);
+            lectureDonneesCsv_Periodes.fermer();
+            
+            for(int i=0;i<10;i++)
+                Service.getRandomDevis();
             
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
