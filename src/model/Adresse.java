@@ -14,7 +14,7 @@ import javax.persistence.Id;
  *
  * @author B3229
  */
-@Entity
+
 public class Adresse implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

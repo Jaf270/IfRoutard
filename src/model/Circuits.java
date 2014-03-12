@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 
 /**
@@ -22,8 +23,8 @@ public class Circuits extends Voyages implements Serializable {
         super();
     }
 
-    public Circuits(String transport, int nbKm, int num, String reference, int duree, Pays pays, TypeVoyage type) {
-        super(num, reference, duree, pays, type);
+    public Circuits(String transport, int nbKm, int num, String reference, int duree, Pays pays, TypeVoyage type, List<Periodes> periodes) {
+        super(num, reference, duree, pays, type, periodes);
         this.transport = transport;
         this.nbKm = nbKm;
     }

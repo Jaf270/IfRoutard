@@ -6,14 +6,12 @@ package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,8 +33,7 @@ public class Client implements Serializable {
     @Column(name = "DATE_NAISSANCE")
     @Temporal(TemporalType.DATE)
     private Calendar dateNaissance;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Adresse adrPostale;
+    private String adrPostale;
     private String adrMail;
     private String telephone;
     private boolean contactPart;
@@ -65,7 +62,7 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(int numClient, Civilite civilite, String nom, String prenom, Calendar dateField, Adresse adrPostale, String adrMail, String telephone, boolean contactPart, String motDePasse) {
+    public Client(int numClient, Civilite civilite, String nom, String prenom, Calendar dateField, String adrPostale, String adrMail, String telephone, boolean contactPart, String motDePasse) {
         this.numClient = numClient;
         this.civilite = civilite;
         this.nom = nom;

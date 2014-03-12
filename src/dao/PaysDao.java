@@ -38,7 +38,7 @@ public abstract class PaysDao {
     public abstract DaoError creerPays(Pays pays);
     public abstract Pays majPays(Pays pays);
     public abstract DaoError supprimerPays(Pays pays);
-    public abstract Pays trouverPaysParNum(int numPays);
+    public abstract Pays trouverPaysParCode(String codePays);
     public abstract Pays trouverPaysParNom(String unNom);
     public abstract List<Pays> listerPays();
 }

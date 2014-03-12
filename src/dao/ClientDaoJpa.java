@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -125,7 +126,7 @@ public class ClientDaoJpa extends ClientDao {
     
     @Override
     public List<Client> listerClient() {
-        List<Client> ret = null;
+        List<Client> ret = new ArrayList<Client>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Client c");
             ret = (List<Client>) q.getResultList();

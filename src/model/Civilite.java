@@ -12,5 +12,6 @@ import javax.persistence.Entity;
  */
 public enum Civilite {
     MASCULIN,
-    FEMININ
+    FEMININ,
+    AUTRE
 }

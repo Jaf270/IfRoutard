@@ -1,6 +1,7 @@
 
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -105,7 +106,7 @@ public class VoyageDaoJpa extends VoyageDao {
     
     @Override
     public List<Voyages> listerVoyages() {
-        List<Voyages> ret = null;
+        List<Voyages> ret = new ArrayList<Voyages>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c");
             ret = (List<Voyages>) q.getResultList();
@@ -121,7 +122,7 @@ public class VoyageDaoJpa extends VoyageDao {
 
     @Override
     public List<Voyages> listerVoyagesParPays(Pays pays) {
-        List<Voyages> ret = null;
+        List<Voyages> ret = new ArrayList<Voyages>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays");
             q.setParameter("pays", pays);
@@ -138,7 +139,7 @@ public class VoyageDaoJpa extends VoyageDao {
 
     @Override
     public List<Voyages> listerVoyagesParTypeETPays(TypeVoyage type, Pays pays) {
-        List<Voyages> ret = null;
+        List<Voyages> ret = new ArrayList<Voyages>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays and type = :type");
             q.setParameter("pays", pays).setParameter("type", type);

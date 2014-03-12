@@ -2,6 +2,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,17 +33,20 @@ public abstract class Voyages implements Serializable {
     private Pays pays;
     @Enumerated (EnumType.STRING)
     private TypeVoyage type;
+    @OneToMany
+    private List<Periodes> periodes;
     
     public Voyages() {
         
     }
 
-    public Voyages(int num, String reference, int duree, Pays pays, TypeVoyage type) {
+    public Voyages(int num, String reference, int duree, Pays pays, TypeVoyage type, List<Periodes> periodes) {
         this.num = num;
         this.reference = reference;
         this.duree = duree;
         this.pays = pays;
         this.type = type;
+        this.periodes = periodes;
     }
     
     public int getId() {
@@ -56,6 +61,9 @@ public abstract class Voyages implements Serializable {
         return pays;
     }
     
-    
+    public void ajouterPeriode(Periodes periode)
+    {
+        this.periodes.add(periode);
+    }
     
 }

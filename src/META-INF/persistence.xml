@@ -3,7 +3,15 @@
   <persistence-unit name="IFRoutardPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>model.Client</class>
-    <class>model.Adresse</class>
+    <class>model.Circuits</class>
+    <class>model.Conseillers</class>
+    <class>model.Devis</class>
+    <class>model.Partenaires</class>
+    <class>model.Pays</class>
+    <class>model.Periodes</class>
+    <class>model.Sejours</class>
+    <class>model.TypeTransport</class>
+    <class>model.Voyages</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/ifroutard"/>
       <property name="javax.persistence.jdbc.password" value="nbuser"/>

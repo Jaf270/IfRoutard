@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -82,7 +83,7 @@ public class DevisDaoJpa extends DevisDao
 
     @Override
     public List<Devis> listerDevis() {
-        List<Devis> ret = null;
+        List<Devis> ret = new ArrayList<Devis>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Devis c");
             ret = (List<Devis>) q.getResultList();

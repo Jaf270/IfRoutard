@@ -6,6 +6,7 @@
 
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -61,11 +62,11 @@ public class PaysDaoJpa extends PaysDao {
     }
 
     @Override
-    public Pays trouverPaysParNum(int numPays) {
+    public Pays trouverPaysParCode(String codePays) {
         Pays ret = null;
         try {
-            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.numPays = :numPays");
-            q.setParameter("numVoyage", numPays);
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c where c.code = :codePays");
+            q.setParameter("codePays", codePays);
             ret = (Pays)q.getSingleResult();
             error = DaoError.OK;
         }
@@ -106,7 +107,7 @@ public class PaysDaoJpa extends PaysDao {
     
     @Override
     public List<Pays> listerPays() {
-        List<Pays> ret = null;
+        List<Pays> ret = new ArrayList<Pays>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Pays c");
             ret = (List<Pays>) q.getResultList();

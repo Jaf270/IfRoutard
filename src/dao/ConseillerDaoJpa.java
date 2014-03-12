@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.NoResultException;
@@ -84,7 +85,7 @@ public class ConseillerDaoJpa extends ConseillerDao
 
     @Override
     public List<Conseillers> listerConseillers() {
-        List<Conseillers> ret = null;
+        List<Conseillers> ret = new ArrayList<Conseillers>();
         try {
             Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Conseillers c");
             ret = (List<Conseillers>) q.getResultList();

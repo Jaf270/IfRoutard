@@ -29,29 +29,29 @@ import model.Voyages;
  * @author B3229
  */
 public class Service {
-    protected ServiceError error = null;
-    protected String errorMessage = null;
+    protected static ServiceError error = null;
+    protected static String errorMessage = null;
     
     /**
      *
      * @return The error indicator of the last failed call
      */
-    public final ServiceError getError() {
+    public static ServiceError getError() {
         return error;
     }
     /**
      *
      * @return The error message of the last failed call
      */
-    public final String getErrorMessage() {
+    public static String getErrorMessage() {
         return errorMessage;
     }
     
-    private ClientDao clientDao = new ClientDaoJpa();
-    private PaysDao paysDao = new PaysDaoJpa();
-    private VoyageDao voyageDao = new VoyageDaoJpa();
-    private DevisDao devisDao = new DevisDaoJpa();
-    private ConseillerDao conseillerDao = new ConseillerDaoJpa();
+    private static ClientDao clientDao = new ClientDaoJpa();
+    private static PaysDao paysDao = new PaysDaoJpa();
+    private static VoyageDao voyageDao = new VoyageDaoJpa();
+    private static DevisDao devisDao = new DevisDaoJpa();
+    private static ConseillerDao conseillerDao = new ConseillerDaoJpa();
     
 //============= Module Client =================================================
     
@@ -60,7 +60,7 @@ public class Service {
      * @param client Le client à inscrire
      * @return le numéro du client si succès, -1 sinon
      */
-    public int InscriptionClient(Client client) {
+    public static int InscriptionClient(Client client) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         clientDao.trouverClientParEMail(client.getEMail());
@@ -68,7 +68,7 @@ public class Service {
             error = ServiceError.EXISTING_EMAIL;
             JpaUtil.fermerEntityManager();
         }
-        else {
+        else if(clientDao.getError() == DaoError.NOT_FOUND) {
             try {
                 JpaUtil.ouvrirTransaction();
                 if(clientDao.creerClient(client) != DaoError.OK)
@@ -91,6 +91,11 @@ public class Service {
                 JpaUtil.fermerEntityManager();
             }
         }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = clientDao.getErrorMessage();
+        }
         return ret;
     }
     
@@ -100,7 +105,7 @@ public class Service {
      * @param motDePasse Le mot de passe du client
      * @return Le client si succès et null sinon
      */
-    public Client ConnexionClient(String email, String motDePasse) {
+    public static Client ConnexionClient(String email, String motDePasse) {
         Client returnClient = null;
         JpaUtil.creerEntityManager();
         returnClient = clientDao.trouverClientParEMail(email);
@@ -125,6 +130,29 @@ public class Service {
     }
     
 //============= Fin Module Client =============================================
+
+//============= Module Conseiller =============================================
+    
+    public static int ajouterConseiller(Conseillers cons)
+    {
+        int ret = -1;
+        JpaUtil.creerEntityManager();
+        conseillerDao.creerConseiller(cons);
+        if(conseillerDao.getError() == DaoError.OK)
+        {
+            ret = cons.getId();
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = conseillerDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return ret;
+    }
+    
+//============= Fin Module Conseiller =============================================
     
 //============= Module Devis ==================================================
     
@@ -133,7 +161,7 @@ public class Service {
      * @param devis Le devis à établir
      * @return Le conseiller attribué au devis si succès, et null sinon
      */
-    public Conseillers CréerDevis(Devis devis) {
+    public static Conseillers CréerDevis(Devis devis) {
         JpaUtil.creerEntityManager();
         Conseillers ret = conseillerDao.trouverConseillerAdequat(devis.getPays());
         if(conseillerDao.getError() == DaoError.NOT_FOUND)
@@ -186,13 +214,13 @@ public class Service {
      * @param pays Le pays à ajouter
      * @return L'identifiant du pays si succès, -1 sinon
      */
-    public int AjouterPays(Pays pays) {
+    public static int AjouterPays(Pays pays) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         paysDao.creerPays(pays);
         if(paysDao.getError() == DaoError.OK)
         {
-            ret = pays.getNum();
+            ret = pays.getId();
             error = ServiceError.OK;
         }
         else
@@ -209,13 +237,13 @@ public class Service {
      * @param pays Le pays à mettre à jour
      * @return L'identifiant du pays si succès, -1 sinon
      */
-    public int EditionPays(Pays pays) {
+    public static int EditionPays(Pays pays) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         pays = paysDao.majPays(pays);
         if(paysDao.getError() == DaoError.OK)
         {
-            ret = pays.getNum();
+            ret = pays.getId();
             error = ServiceError.OK;
         }
         else
@@ -231,7 +259,7 @@ public class Service {
      * Permet de lister tous les pays
      * @return La liste des pays si succès, null sinon
      */
-    public List<Pays> RecherchePays() {
+    public static List<Pays> RecherchePays() {
         List<Pays> ret;
         JpaUtil.creerEntityManager();
         ret = paysDao.listerPays();
@@ -253,10 +281,10 @@ public class Service {
      * @param numPays L'identifiant du pays
      * @return Le pays si succès, null sinon
      */
-    public Pays DetailPays(int numPays) {
+    public static Pays DetailPays(String codePays) {
         Pays ret;
         JpaUtil.creerEntityManager();
-        ret = paysDao.trouverPaysParNum(numPays);
+        ret = paysDao.trouverPaysParCode(codePays);
         if(paysDao.getError() == DaoError.OK)
         {
             error = ServiceError.OK;
@@ -279,10 +307,10 @@ public class Service {
      * @param numPays L'identifiant du pays
      * @return TRUE si succès, FALSE sinon
      */
-    public boolean SuppressionPays(int numPays) {
+    public static boolean SuppressionPays(String codePays) {
         boolean ret = false;
         JpaUtil.creerEntityManager();
-        Pays toDelete = paysDao.trouverPaysParNum(numPays);
+        Pays toDelete = paysDao.trouverPaysParCode(codePays);
         if(paysDao.getError() == DaoError.OK)
         {
             paysDao.supprimerPays(toDelete);
@@ -319,7 +347,7 @@ public class Service {
      * @param voyage Le voyage à ajouter
      * @return L'identifiant du voyage si succès, -1 sinon
      */
-    public int AjouterVoyage(Voyages voyage) {
+    public static int AjouterVoyage(Voyages voyage) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         voyageDao.creerVoyage(voyage);
@@ -342,7 +370,7 @@ public class Service {
      * @param voyage Le voyage à mettre à jour
      * @return L'identifiant du voyage si succès, -1 sinon
      */
-    public int EditionVoyage(Voyages voyage) {
+    public static int EditionVoyage(Voyages voyage) {
         int ret = -1;
         JpaUtil.creerEntityManager();
         voyage = voyageDao.majVoyage(voyage);
@@ -366,7 +394,7 @@ public class Service {
      * @param pays Le pays où se déroule le voyage
      * @return Liste filtrée de voyages si succès, null sinon
      */
-    public List<Voyages> RechercheVoyage(TypeVoyage type, Pays pays) {
+    public static List<Voyages> RechercheVoyage(TypeVoyage type, Pays pays) {
         List<Voyages> liste;
         JpaUtil.creerEntityManager();
         liste = voyageDao.listerVoyagesParTypeETPays(type, pays);
@@ -385,13 +413,13 @@ public class Service {
     
     /**
      * Permet d'obtenir les détails d'un voyage
-     * @param numVoyage L'identifiant du voyage
+     * @param numVoyage La référence du voyage
      * @return Le voyage si succès, null sinon
      */
-    public Voyages DetailsVoyage(int numVoyage) {
+    public static Voyages DetailsVoyage(String refVoyage) {
         Voyages ret;
         JpaUtil.creerEntityManager();
-        ret = voyageDao.trouverVoyageParNum(numVoyage);
+        ret = voyageDao.trouverVoyageParRef(refVoyage);
         if(voyageDao.getError() == DaoError.OK)
         {
             error = ServiceError.OK;
@@ -412,13 +440,13 @@ public class Service {
     
     /**
      * Permet de supprimer un voyage de la base de l'agence
-     * @param numVoyage L'identifiant du voyage
+     * @param numVoyage Le référence du voyage
      * @return TRUE si succès, FALSE sinon
      */
-    public boolean SuppressionVoyage(int numVoyage) {
+    public static boolean SuppressionVoyage(String refVoyage) {
         boolean ret = false;
         JpaUtil.creerEntityManager();
-        Voyages toDelete = voyageDao.trouverVoyageParNum(numVoyage);
+        Voyages toDelete = voyageDao.trouverVoyageParRef(refVoyage);
         if(voyageDao.getError() == DaoError.OK)
         {
             voyageDao.supprimerVoyage(toDelete);

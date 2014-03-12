@@ -8,7 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,16 +32,16 @@ public class Periodes implements Serializable {
     private Calendar datep;
     private int montant;
     @ManyToMany
-    private TypeTransport typeTransport;
+    private List<TypeTransport> typesTransport;
 
     public Periodes() {
     }
 
-    public Periodes(String ville, Calendar datep, int montant, TypeTransport typeTransport) {
+    public Periodes(String ville, Calendar datep, int montant, List<TypeTransport> typesTransport) {
         this.ville = ville;
         this.datep = datep;
         this.montant = montant;
-        this.typeTransport = typeTransport;
+        this.typesTransport = typesTransport;
     }
     
     public int getId() {

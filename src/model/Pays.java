@@ -22,18 +22,18 @@ public class Pays implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
-    private int num;
+    private String code;
     private String nom;
     private String capitale;
     private int superficie;
-    private long nbHab;
+    private float nbHab;
     private String langue;
 
     public Pays() {
     }
 
-    public Pays(int num, String nom, String capitale, int superficie, long nbHab, String langue) {
-        this.num = num;
+    public Pays(String code, String nom, String capitale, int superficie, float nbHab, String langue) {
+        this.code = code;
         this.nom = nom;
         this.capitale = capitale;
         this.superficie = superficie;
@@ -45,14 +45,14 @@ public class Pays implements Serializable {
         return id;
     }
 
-    public int getNum() {
-        return num;
+    public String getCode() {
+        return code;
     }
     
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + this.num;
+        hash = 17 * hash + this.code.hashCode();
         return hash;
     }
 
@@ -65,7 +65,7 @@ public class Pays implements Serializable {
             return false;
         }
         final Pays other = (Pays) obj;
-        if (this.num != other.num) {
+        if (!this.code.equals(other.code)) {
             return false;
         }
         return true;

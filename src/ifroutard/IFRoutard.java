@@ -25,12 +25,5 @@ public class IFRoutard {
         cal.set(1993, 7, 24);
         String email = "thomas.losbar@insa-l.fr";
         String motDePasse = "test";
-        Client c1 = new Client(1234, Civilite.MASCULIN, "Losbar", "Thomas", cal, new Adresse(53, "rue courte","31000","Toulouse"),email,"6646464",true,motDePasse);
-        
-        serv.InscriptionClient(c1);
-        System.out.println(serv.getError().name());
-        serv.ConnexionClient(email, motDePasse);
-        System.out.println(serv.getError().name());
-        System.out.println(serv.getErrorMessage());
     }
 }
