@@ -18,6 +18,7 @@ import dao.VoyageDao;
 import dao.VoyageDaoJpa;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -134,6 +135,24 @@ public class Service {
         return returnClient;
     }
     
+    public static List<Client> listerClients()
+    {
+        List<Client> clis = new ArrayList<Client>();
+        JpaUtil.creerEntityManager();
+        clis = clientDao.listerClient();
+        if(clientDao.getError() == DaoError.OK)
+        {
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = clientDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return clis;
+    }
+    
 //============= Fin Module Client =============================================
 
 //============= Module Conseiller =============================================
@@ -210,24 +229,53 @@ public class Service {
         return ret;
     }
     
-    public static void getRandomDevis()
+    public static List<Devis> listerDevisParClient(Client client)
     {
-        List<Client> clis = clientDao.listerClient();
+        List<Devis> devis = new ArrayList<Devis>();
+        JpaUtil.creerEntityManager();
+        devis = devisDao.listerDevisParClient(client);
+        if(devisDao.getError() == DaoError.OK)
+        {
+            error = ServiceError.OK;
+        }
+        else
+        {
+            error = ServiceError.GENERIC_ERROR;
+            errorMessage = devisDao.getErrorMessage();
+        }
+        JpaUtil.fermerEntityManager();
+        return devis;
+    }
+    
+    public static void getRandomDevis(Client cli)
+    {
         List<Voyages> voys = voyageDao.listerVoyages();
-        
-        if(clis.isEmpty())
-            System.err.println("Attention, pas de client");
-        if(voys.isEmpty())
-            System.err.println("Attention, pas de voyage");
-        
-        Collections.shuffle(clis);
-        Collections.shuffle(voys);
-        
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-        
-        Devis devis = new Devis(0, cal, 2, clis.get(1), voys.get(1), voys.get(1).getRandomPeriode());
-        Service.CréerDevis(devis);
+        if(voyageDao.getError() == DaoError.OK)
+        {
+            if(voys.isEmpty())
+            {
+                System.err.println("Aucun voyage");
+            }
+            else
+            {
+                Collections.shuffle(voys);
+                Calendar cal = Calendar.getInstance();
+                Devis devis = new Devis(0, cal, 2, cli, voys.get(1), voys.get(1).getRandomPeriode());
+                Service.CréerDevis(devis);
+                if(Service.getError() == ServiceError.OK)
+                {
+                    System.out.println("Devis créé");
+                }
+                else
+                {
+                    System.err.println(Service.getErrorMessage());
+                }
+            }
+        }
+        else
+        {
+            System.err.println(voyageDao.getErrorMessage());
+        }
     }
     
 // ============= Fin Module Devis =============================================
@@ -420,7 +468,7 @@ public class Service {
      * @return Liste filtrée de voyages si succès, null sinon
      */
     public static List<Voyages> RechercheVoyage(TypeVoyage type, Pays pays) {
-        List<Voyages> liste;
+        List<Voyages> liste = new ArrayList<Voyages>();
         JpaUtil.creerEntityManager();
         liste = voyageDao.listerVoyagesParTypeETPays(type, pays);
         if(voyageDao.getError() != DaoError.OK)

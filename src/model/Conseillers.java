@@ -26,7 +26,7 @@ public class Conseillers implements Serializable {
     private int num;
     private String nom;
     private String prenom;
-    private int nbDevis;
+    private int nbdevis;
     @ManyToMany
     private List<Pays> pays;
     
@@ -38,21 +38,25 @@ public class Conseillers implements Serializable {
         this.num = num;
         this.nom = nom;
         this.prenom = prenom;
-        this.nbDevis = nbDevis;
+        this.nbdevis = nbDevis;
         this.pays = pays;
     }
 
     public int getId() {
         return id;
     }
+
+    public String getNom() {
+        return nom;
+    }
     
     public void ajouterDevis()
     {
-        nbDevis++;
+        nbdevis++;
     }
     
     public void enleverDevis() {
-        nbDevis--;
+        nbdevis--;
     }
     
     public boolean estSpecialise(Pays pays)

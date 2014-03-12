@@ -48,6 +48,16 @@ public class Periodes implements Serializable {
         return id;
     }
     
+    public String toString()
+    {
+        String ret = ville+" le "+datep.toString()+"  Tarif: "+montant+"euros  ";
+        for(TypeTransport type : typesTransport)
+        {
+            ret += type.getDescription()+" / ";
+        }
+        return ret;
+    }
+    
     public int getMontantTotal(int nbPersonnes)
     {
         return nbPersonnes*montant;

@@ -73,6 +73,28 @@ public class Client implements Serializable {
         this.contactPart = contactPart;
         this.motDePasse = motDePasse;
     }
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.adrMail.hashCode();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Client other = (Client) obj;
+        if (!this.adrMail.equals(other.adrMail)) {
+            return false;
+        }
+        return true;
+    }
 
     
 }

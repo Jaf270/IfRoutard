@@ -7,6 +7,7 @@
 package dao;
 
 import java.util.List;
+import model.Client;
 import model.Devis;
 
 /**
@@ -37,6 +38,7 @@ public abstract class DevisDao {
     public abstract DaoError creerDevis(Devis devis);
     public abstract Devis majDevis(Devis devis);
     public abstract DaoError supprimerDevis(Devis devis);
+    public abstract List<Devis> listerDevisParClient(Client cli);
     public abstract Devis trouverDevisParNum(int numDevis);
     public abstract List<Devis> listerDevis();
 }

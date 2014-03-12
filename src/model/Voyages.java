@@ -61,6 +61,16 @@ public abstract class Voyages implements Serializable {
     public Pays getPays() {
         return pays;
     }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public List<Periodes> getPeriodes() {
+        return periodes;
+    }
+    
+    
     
     public void ajouterPeriode(Periodes periode)
     {

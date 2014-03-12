@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import model.Client;
 import model.Devis;
 
 /**
@@ -19,13 +20,13 @@ public class DevisDaoJpa extends DevisDao
     @Override
     public DaoError creerDevis(Devis devis) {
         try {
-            JpaUtil.ouvrirTransaction();
+            //JpaUtil.ouvrirTransaction();
             JpaUtil.obtenirEntityManager().persist(devis);
-            JpaUtil.validerTransaction();
+            //JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e) {
-            JpaUtil.annulerTransaction();
+            //JpaUtil.annulerTransaction();
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
         }
@@ -105,4 +106,22 @@ public class DevisDaoJpa extends DevisDao
         }
         return ret;
     }   
+
+    @Override
+    public List<Devis> listerDevisParClient(Client cli) {
+        List<Devis> ret = new ArrayList<Devis>();
+        try
+        {
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Devis c where c.client = :client");
+            q.setParameter("client", cli);
+            ret = (List<Devis>)q.getResultList();
+            error = DaoError.OK;
+        }
+        catch(Exception e)
+        {
+            error = DaoError.GENERIC_ERROR;
+            errorMessage = e.getMessage();
+        }
+        return ret;
+    }
 }

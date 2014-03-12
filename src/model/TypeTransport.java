@@ -29,6 +29,12 @@ public class TypeTransport implements Serializable {
     public TypeTransport(String description) {
         this.description = description;
     }
+
+    public String getDescription() {
+        return description;
+    }
+    
+    
     
     public int getId() {
         return id;

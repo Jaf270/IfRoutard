@@ -150,8 +150,9 @@ public class VoyageDaoJpa extends VoyageDao {
     public List<Voyages> listerVoyagesParTypeETPays(TypeVoyage type, Pays pays) {
         List<Voyages> ret = new ArrayList<Voyages>();
         try {
-            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where pays = :pays and type = :type");
-            q.setParameter("pays", pays).setParameter("type", type);
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Voyages c where c.pays = :pays and c.type = :type");
+            q.setParameter("pays", pays);
+            q.setParameter("type", type);
             ret = (List<Voyages>) q.getResultList();
             error = DaoError.OK;
         }

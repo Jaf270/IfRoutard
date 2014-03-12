@@ -68,4 +68,9 @@ public class Devis implements Serializable {
         return voyage.getPays();
     }
     
+    public String toString()
+    {
+        return "Devis vers "+voyage.getPays().getCode()+" pour "+nbPersonne+" personnes à "+montant+" euros";
+    }
+    
 }

@@ -38,14 +38,14 @@ public class ConseillerDaoJpa extends ConseillerDao
     public Conseillers majConseiller(Conseillers conseiller) {
         Conseillers ret;
         try {
-            JpaUtil.ouvrirTransaction();
+            //JpaUtil.ouvrirTransaction();
             ret = (Conseillers)JpaUtil.obtenirEntityManager().merge(conseiller);
-            JpaUtil.validerTransaction();
+            //JpaUtil.validerTransaction();
             error = DaoError.OK;
         }
         catch(Exception e)
         {
-            JpaUtil.annulerTransaction();
+            //JpaUtil.annulerTransaction();
             ret = null;
             error = DaoError.GENERIC_ERROR;
             errorMessage = e.getMessage();
@@ -113,7 +113,7 @@ public class ConseillerDaoJpa extends ConseillerDao
         Conseillers ret = null;
         try
         {
-            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Conseillers c order by nbDevis ASC");
+            Query q = JpaUtil.obtenirEntityManager().createQuery("select c from Conseillers c order by c.nbdevis ASC");
             List<Conseillers> list = q.getResultList();
             for(Iterator<Conseillers> it = list.iterator();it.hasNext();)
             {

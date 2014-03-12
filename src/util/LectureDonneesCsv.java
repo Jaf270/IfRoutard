@@ -151,6 +151,8 @@ public class LectureDonneesCsv {
         System.err.println();
     }
     
+    
+    
     /**
      * Lit le fichier CSV, affiche son en-tête, puis appelle la création de Client pour chaque ligne.
      * @param limite Nombre maximum de lignes à lire ou -1 pour ne pas limiter
@@ -206,6 +208,9 @@ public class LectureDonneesCsv {
         cal = CSV_DATE_FORMAT.getCalendar();
         Client client = new Client(0, civ, nom, prenom, cal, adresse, email, telephone, true, null);
         Service.InscriptionClient(client);
+        if(Service.getError() != ServiceError.OK)
+            System.out.println(Service.getErrorMessage());
+        Service.getRandomDevis(client);
         if(Service.getError() != ServiceError.OK)
             System.out.println(Service.getErrorMessage());
     }
@@ -412,10 +417,11 @@ public class LectureDonneesCsv {
             Pays temp = Service.DetailPays(descriptionConseiller[i]);
             if(Service.getError() == ServiceError.OK)
                 pays.add(temp);
-            //else
-                //break;
+            else
+                System.err.println(Service.getErrorMessage());
+                break;
         }
-        if(!pays.isEmpty() && pays.size() == nbPays)
+        if(!pays.isEmpty())
         {
             Conseillers cons = new Conseillers(0, nom, prenom, 0, pays);
             Service.ajouterConseiller(cons);
@@ -494,7 +500,7 @@ public class LectureDonneesCsv {
         
         try {
             String racineProjet = System.getProperty("user.dir");
-            String separator = "/";
+            String separator = "\\";
             List<String> dirs = Arrays.asList("src","util","data");
             String cheminFichier = racineProjet+separator;
             for(String s:dirs)
@@ -509,10 +515,6 @@ public class LectureDonneesCsv {
             String fichierCircuits = cheminFichier+"IFRoutard-Voyages-Circuits.csv";
             String fichierSejours = cheminFichier+"IFRoutard-Voyages-Sejours.csv";
             
-            LectureDonneesCsv lectureDonneesCsv_Clients = new LectureDonneesCsv(fichierClients);
-            lectureDonneesCsv_Clients.lireClients(200);
-            lectureDonneesCsv_Clients.fermer();
-
             LectureDonneesCsv lectureDonneesCsv_Pays = new LectureDonneesCsv(fichierPays);
             lectureDonneesCsv_Pays.lirePays(-1);
             lectureDonneesCsv_Pays.fermer();
@@ -529,12 +531,13 @@ public class LectureDonneesCsv {
             lectureDonneesCsv_Conseillers.lireConseillers(-1);
             lectureDonneesCsv_Conseillers.fermer();
             
+            LectureDonneesCsv lectureDonneesCsv_Clients = new LectureDonneesCsv(fichierClients);
+            lectureDonneesCsv_Clients.lireClients(-1);
+            lectureDonneesCsv_Clients.fermer();
+            
             LectureDonneesCsv lectureDonneesCsv_Periodes = new LectureDonneesCsv(fichierDeparts);
             lectureDonneesCsv_Periodes.lirePeriodes(-1);
             lectureDonneesCsv_Periodes.fermer();
-            
-            for(int i=0;i<10;i++)
-                Service.getRandomDevis();
             
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
