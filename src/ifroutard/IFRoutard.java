@@ -8,6 +8,7 @@ import java.util.Calendar;
 import model.Adresse;
 import model.Civilite;
 import model.Client;
+import model.Pays;
 import service.Service;
 
 /**
@@ -20,10 +21,8 @@ public class IFRoutard {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        service.Service serv = new Service();
-        Calendar cal = Calendar.getInstance();
-        cal.set(1993, 7, 24);
-        String email = "thomas.losbar@insa-l.fr";
-        String motDePasse = "test";
+        Pays pays = new Pays("A", "Test", "Testville", 123, 4, "Testois");
+        
+        Service.AjouterPays(pays);
     }
 }

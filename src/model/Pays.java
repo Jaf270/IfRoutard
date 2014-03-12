@@ -20,7 +20,7 @@ import javax.persistence.Id;
 public class Pays implements Serializable {
    
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue//(strategy= GenerationType.AUTO)
     private int id;
     private String code;
     private String nom;

@@ -30,7 +30,6 @@ public class Client implements Serializable {
     private Civilite civilite;
     private String nom;
     private String prenom;
-    @Column(name = "DATE_NAISSANCE")
     @Temporal(TemporalType.DATE)
     private Calendar dateNaissance;
     private String adrPostale;

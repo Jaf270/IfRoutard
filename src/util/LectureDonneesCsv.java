@@ -1,9 +1,11 @@
 package util;
 
 import au.com.bytecode.opencsv.CSVReader;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -50,11 +52,41 @@ public class LectureDonneesCsv {
     protected static DateFormat USER_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     
     /**
+     * La fenêtre d'affichage des tests
+     */
+    protected static CsvWindow window = new CsvWindow("Test CSV");
+    
+    /**
      * Le lecteur de fichier CSV.
      * Il doit être initialisé avant l'appel aux méthodes de la classe.
      */
     protected CSVReader lecteurFichier;
-
+    
+    /**
+     * Permet de compter le nombre de lignes d'un fichier
+     * @throws IOException 
+     */
+    protected int count(String filename) throws IOException {
+        InputStream is = new BufferedInputStream(new FileInputStream(filename));
+        try {
+            byte[] c = new byte[1024];
+            int count = 0;
+            int readChars = 0;
+            boolean empty = true;
+            while ((readChars = is.read(c)) != -1) {
+                empty = false;
+                for (int i = 0; i < readChars; ++i) {
+                    if (c[i] == '\n') {
+                        ++count;
+                    }
+                }
+            }
+            return (count == 0 && !empty) ? 1 : count;
+        } finally {
+            is.close();
+        }
+    }
+    
     /**
      * Unique constructeur de la classe. Le fichier CSV donné en paramètre doit
      * avoir le point-virgule ';' comme séparateur et être encodé en UTF-8. Le fichier est
@@ -62,8 +94,10 @@ public class LectureDonneesCsv {
      * @param cheminVersFichier Chemin vers le fichier CSV.
      * @throws FileNotFoundException Si le chemin vers le fichier n'est pas valide ou le fichier non-lisible.
      */
-    public LectureDonneesCsv(String cheminVersFichier) throws FileNotFoundException, UnsupportedEncodingException {
+    public LectureDonneesCsv(String cheminVersFichier) throws FileNotFoundException, UnsupportedEncodingException, IOException {
 
+        int nbLignes = count(cheminVersFichier);
+        window.setCurrentFile(cheminVersFichier, nbLignes);
         this.lecteurFichier = new CSVReader(new InputStreamReader(new FileInputStream(cheminVersFichier), "UTF-8"), ';');
     }
     
@@ -135,6 +169,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerClient(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -193,6 +228,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerPays(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -242,6 +278,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerCircuit(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -293,6 +330,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerSejour(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -343,6 +381,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerConseiller(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -403,6 +442,7 @@ public class LectureDonneesCsv {
         while ((nextLine = this.lecteurFichier.readNext()) != null) {
         
             creerPeriode(nextLine);
+            window.incrementProgressBar();
             
             // Limite (ou -1 si pas de limite)
             if ( !(limite < 0) && (--limite < 1) ) {
@@ -473,25 +513,25 @@ public class LectureDonneesCsv {
             lectureDonneesCsv_Pays.lirePays(10);
             lectureDonneesCsv_Pays.fermer();
             
-            LectureDonneesCsv lectureDonneesCsv_Circuits = new LectureDonneesCsv(fichierCircuits);
-            lectureDonneesCsv_Circuits.lireCircuits(10);
-            lectureDonneesCsv_Circuits.fermer();
-            
-            LectureDonneesCsv lectureDonneesCsv_Sejours = new LectureDonneesCsv(fichierSejours);
-            lectureDonneesCsv_Sejours.lireSejours(10);
-            lectureDonneesCsv_Sejours.fermer();
-            
-            LectureDonneesCsv lectureDonneesCsv_Conseillers = new LectureDonneesCsv(fichierConseillers);
-            lectureDonneesCsv_Conseillers.lireConseillers(10);
-            lectureDonneesCsv_Conseillers.fermer();
-            
-            LectureDonneesCsv lectureDonneesCsv_Periodes = new LectureDonneesCsv(fichierDeparts);
-            lectureDonneesCsv_Periodes.lirePeriodes(10);
-            lectureDonneesCsv_Periodes.fermer();
+//            LectureDonneesCsv lectureDonneesCsv_Circuits = new LectureDonneesCsv(fichierCircuits);
+//            lectureDonneesCsv_Circuits.lireCircuits(10);
+//            lectureDonneesCsv_Circuits.fermer();
+//            
+//            LectureDonneesCsv lectureDonneesCsv_Sejours = new LectureDonneesCsv(fichierSejours);
+//            lectureDonneesCsv_Sejours.lireSejours(10);
+//            lectureDonneesCsv_Sejours.fermer();
+//            
+//            LectureDonneesCsv lectureDonneesCsv_Conseillers = new LectureDonneesCsv(fichierConseillers);
+//            lectureDonneesCsv_Conseillers.lireConseillers(10);
+//            lectureDonneesCsv_Conseillers.fermer();
+//            
+//            LectureDonneesCsv lectureDonneesCsv_Periodes = new LectureDonneesCsv(fichierDeparts);
+//            lectureDonneesCsv_Periodes.lirePeriodes(10);
+//            lectureDonneesCsv_Periodes.fermer();
             
         } catch (IOException ex) {
             ex.printStackTrace(System.err);
         }
-
+        window.fermer();
     }
 }
