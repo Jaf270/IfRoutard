@@ -16,9 +16,10 @@ Ce livrable représente la partie backend d'un projet d'application web J2EE.
   
 #### Travail effectué
 - Conception des maquettes des IHM suivantes:
-..1. IHM fenêtré pour la gestion du catalogue des voyages (pour les créateurs de voyage)
-..2. IHM web pour s'enregistrer (pour les clients)
-..3. IHM web pour la consultation du catalogue des voyages (pour les clients)
+  * (1) IHM fenêtré pour la gestion du catalogue des voyages (pour les créateurs de voyage)
+  * (2) IHM web pour s'enregistrer (pour les clients)
+  * (3) IHM web pour la consultation du catalogue des voyages (pour les clients)
+
 - Spécifier puis développer les services nécessaire aux interfaces (2) et (3)
 
 #### Travail non réalisé
